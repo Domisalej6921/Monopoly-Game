@@ -26,4 +26,13 @@ public class Dice {
     return tempRoll.intValue();
   }
 
+  /**
+   * Get the number of faces on this dice.
+   *
+   * @return the number of faces on this dice.
+   */
+  public Integer getFaces() {
+    return faces;
+  }
+
 }
