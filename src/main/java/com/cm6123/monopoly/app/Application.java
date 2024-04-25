@@ -27,6 +27,8 @@ public final class Application {
 
         System.out.println("Hello. Welcome to Monopoly.");
 
+        BoardProcessing.boardExecution();
+
         logger.info("Application closing");
     }
 
