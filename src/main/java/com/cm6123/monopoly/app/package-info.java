@@ -6,6 +6,8 @@
 package com.cm6123.monopoly.app;
 
 import com.cm6123.monopoly.game.Board;
+import com.cm6123.monopoly.game.Player;
+
 import java.util.Scanner;
 
 /**
@@ -16,15 +18,12 @@ class BoardProcessing {
      * This default constructor handles with the initial proccessing of the board when the user specifies the sixe of the board they want.
      */
      private void boardProcessing() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
 
-        int numOfSpaces = Board.boardInput(scanner);
+        int numOfSpaces = Board.boardInput(scanner1);
 
-        StringBuilder cardBuilder = new StringBuilder(Board.createSpace());
+        Board.boardCreation(numOfSpaces);
 
-        Board.boardCreation(numOfSpaces, cardBuilder);
-
-        scanner.close();
     }
 
     /**
@@ -36,5 +35,17 @@ class BoardProcessing {
     }
 }
 
+class PlayerProcessing {
 
+    private void playerProcessing() {
 
+        int playerCount = Player.playerInput();
+
+    }
+
+    public static final void playerExecution() {
+
+        PlayerProcessing exe = new PlayerProcessing();
+        exe.playerProcessing();
+    }
+}

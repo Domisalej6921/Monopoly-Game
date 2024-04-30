@@ -29,6 +29,8 @@ public final class Application {
 
         BoardProcessing.boardExecution();
 
+        PlayerProcessing.playerExecution();
+
         logger.info("Application closing");
     }
 

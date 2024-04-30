@@ -12,21 +12,20 @@ public class Board {
     /**
      * Obtains the user's input for the board size and checks if it is valid.
      *
-     * @param scanner is used for the program to grab the user's input
-     *
+     * @param scanner1 is used for the program to grab the user's input
      * @return the user's input of the spaces on the board.
      */
-    public static int boardInput(final Scanner scanner) {
+    public static int boardInput(final Scanner scanner1) {
 
         //Prompt the user to specify the size of the board
         System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): ");
-        int userInput = scanner.nextInt();
+        int userInput = scanner1.nextInt();
 
         //Validate User Input
-        while (userInput < 10 || userInput > 50) {
+        while (userInput < 10 || userInput > 51) {
             System.out.println("Invalid input!Please enter a number between 10 and 50");
             System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): ");
-            userInput = scanner.nextInt();
+            userInput = scanner1.nextInt();
         }
 
         int numOfSpaces = userInput;
@@ -34,77 +33,39 @@ public class Board {
         return numOfSpaces;
     }
 
-
     /**
-     * This class creates a single card which can be inserted into the board.
+     * Creates the board String[][] and prints it in the terminal.
      *
-     * @return is used so that it returns the format of a card to be inserted on the board.
+     * @param numOfSpaces number of spaces the user wants the monopoly board to have.
+     *
+     * @return the board to be used elsewhere in the program
      */
-    public static String createSpace() {
-        StringBuilder cardBuilder = new StringBuilder();
-        int width = 12; // Width of the pattern
-        int height = 4; // Height of the pattern
+    public static String[][] boardCreation(final int numOfSpaces) {
+        System.out.println("Monopoly Board: ");
 
-        // Create the top border
-        cardBuilder.append("+");
-        for (int i = 0; i < width - 2; i++) {
-            cardBuilder.append("-");
-        }
-        cardBuilder.append("+\n");
+        // Define the dimensions of the board
+        int rows = numOfSpaces / 2;
+        int cols = numOfSpaces / 2;
 
-        // Create the middle part of space
-        cardBuilder.append("|");
-        for (int i = 0; i < width - 2; i++) {
-            if (i == (width - 2) / 2 - 5) {
-                cardBuilder.append("Space");
-                i += 4;
-            } else {
-                cardBuilder.append(" ");
+        String[][] board = new String[rows][cols];
+
+        // Fill the board with empty spaces
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                board[i][j] = " ";
             }
         }
-        cardBuilder.append("|\n");
 
-        // Add a line of "-" below the property name
-        cardBuilder.append("|");
-        for (int i = 0; i < width - 2; i++) {
-            cardBuilder.append("-");
+        // Add labels for special tiles
+        board[0][0] = "GO";
+
+        // Print the Monopoly board
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(board[i][j] + "\t");
+            }
+            System.out.println();
         }
-        cardBuilder.append("|\n");
-
-        // Add a couple of lines of space below the word Space Name
-        cardBuilder.append("|");
-        for (int i = 0; i < width - 2; i++) {
-            cardBuilder.append(" ");
-        }
-        cardBuilder.append("|\n");
-
-        cardBuilder.append("|");
-        for (int i = 0; i < width - 2; i++) {
-            cardBuilder.append(" ");
-        }
-        cardBuilder.append("|\n");
-
-        // Create the bottom border
-        cardBuilder.append("+");
-        for (int i = 0; i < width - 2; i++) {
-            cardBuilder.append("-");
-        }
-        cardBuilder.append("+\n");
-
-        return cardBuilder.toString();
-    }
-
-    /**
-     * This class creates the board with the ammount of spaces that the user has specified.
-     *
-     * @param numOfSpaces is used so that it can create the board specific to how the user specified.
-     *
-     * @param cardBuiler is a single card that used in this function will be displayed on the board.
-     */
-    public static void boardCreation(final int numOfSpaces, final StringBuilder cardBuiler) {
-        System.out.println("Monopoly Board: ");
-        for (int i = 0; i < numOfSpaces; i++) {
-            System.out.print(createSpace());
-        }
+        return board;
     }
 }
