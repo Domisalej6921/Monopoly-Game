@@ -14,10 +14,11 @@ public class Player {
      *
      * Finds how many players are in the game.
      *
+     * @param scanner allows user to input data
+     *
      * @return the amount of players in game.
      */
-    public static int playerInput() {
-        Scanner scanner = new Scanner(System.in);
+    public static int playerInput(final Scanner scanner) {
 
         System.out.println("Please enter the amount of Players (Between 2 and 10): ");
         int input = scanner.nextInt();

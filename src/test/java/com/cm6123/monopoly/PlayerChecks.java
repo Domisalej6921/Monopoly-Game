@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class PlayerChecks {
     private final InputStream originalSystemIn = System.in;
@@ -22,8 +23,13 @@ public class PlayerChecks {
 
     @Test
     public void testPlayerInputValid() {
+        String testInput = "2";
+        ByteArrayInputStream in = new ByteArrayInputStream(testInput.getBytes());
+        System.setIn(in);
+
+        Scanner scanner = new Scanner(System.in);
         setUpStreams();
-        int result = Player.playerInput();
+        int result = Player.playerInput(scanner);
         tearDownStreams();
         if (result != 2) {
             System.out.println("Player Input Test Failed: Expected 2, Got " + result);

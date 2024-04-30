@@ -3,6 +3,8 @@ package com.cm6123.monopoly.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Scanner;
+
 
 public final class Application {
     /**
@@ -27,9 +29,13 @@ public final class Application {
 
         System.out.println("Hello. Welcome to Monopoly.");
 
-        BoardProcessing.boardExecution();
+        Scanner scanner = new Scanner(System.in);
+        
+        BoardProcessing boardProcessing = new BoardProcessing();
+        boardProcessing.boardExecution(scanner);
 
-        PlayerProcessing.playerExecution();
+        PlayerProcessing playerProcessing = new PlayerProcessing();
+        playerProcessing.playerExecution(scanner);
 
         logger.info("Application closing");
     }
