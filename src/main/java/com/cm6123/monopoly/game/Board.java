@@ -57,7 +57,7 @@ public class Board {
         }
 
         // Add labels for special tiles
-        board[0][0] = "GO";
+        board[0][0] = "Home";
 
         // Print the Monopoly board
         for (int i = 0; i < rows; i++) {
