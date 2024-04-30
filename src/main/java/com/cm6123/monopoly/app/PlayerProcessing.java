@@ -4,17 +4,16 @@ import com.cm6123.monopoly.game.Player;
 
 import java.util.Scanner;
 
-public class PlayerProcessing {    private void playerProcessing(final Scanner scanner) {
-
-    int playerCount = Player.playerInput(scanner);
+public class PlayerProcessing {
 
     /**
      * Handles the processing of player data.
      *
      * @param scanner allows user input.
      */
+    private void playerProcessing(final Scanner scanner) {
 
-
+        int playerCount = Player.playerCounterInput(scanner);
     }
 
     /**

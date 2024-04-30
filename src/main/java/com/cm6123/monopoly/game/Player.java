@@ -18,9 +18,9 @@ public class Player {
      *
      * @return the amount of players in game.
      */
-    public static int playerInput(final Scanner scanner) {
+    public static int playerCounterInput(final Scanner scanner) {
 
-        System.out.println("Please enter the amount of Players (Between 2 and 10): ");
+        System.out.print("Please enter the amount of Players (Between 2 and 10): ");
         int input = scanner.nextInt();
 
 

@@ -30,7 +30,6 @@ public final class Application {
         System.out.println("Hello. Welcome to Monopoly.");
 
         Scanner scanner = new Scanner(System.in);
-        
         BoardProcessing boardProcessing = new BoardProcessing();
         boardProcessing.boardExecution(scanner);
 
@@ -39,6 +38,4 @@ public final class Application {
 
         logger.info("Application closing");
     }
-
-
 }

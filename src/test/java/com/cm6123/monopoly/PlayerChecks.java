@@ -22,14 +22,14 @@ public class PlayerChecks {
     }
 
     @Test
-    public void testPlayerInputValid() {
+    public void testPlayerCounterInputValid() {
         String testInput = "2";
         ByteArrayInputStream in = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(in);
 
         Scanner scanner = new Scanner(System.in);
         setUpStreams();
-        int result = Player.playerInput(scanner);
+        int result = Player.playerCounterInput(scanner);
         tearDownStreams();
         if (result != 2) {
             System.out.println("Player Input Test Failed: Expected 2, Got " + result);
