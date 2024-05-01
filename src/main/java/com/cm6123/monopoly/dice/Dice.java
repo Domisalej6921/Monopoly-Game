@@ -5,7 +5,7 @@ public class Dice {
   /**
    * The number of faces on this dice.
    */
-  private Integer faces;
+  private static Integer faces;
 
   /**
    * Construct a dice with the given number of faces.
@@ -13,7 +13,7 @@ public class Dice {
    * @param numberOfFaces the number of faces that the dice will have.  Dice rolls 1 to this number.
    */
   public Dice(final Integer numberOfFaces) {
-    this.faces = numberOfFaces;
+      this.faces = numberOfFaces;
   }
 
   /**
@@ -21,9 +21,28 @@ public class Dice {
    *
    * @return an integer between 1 and the number of faces inclusive.
    */
-  public Integer roll() {
+  public static Integer roll() {
     Double tempRoll = Math.ceil(Math.random() * faces.doubleValue());
     return tempRoll.intValue();
+  }
+
+  public static int[] rollTwoDice() {
+    int roll1 = roll();
+    int roll2 = roll();
+
+    int[] roll = {roll1, roll2};
+
+    return roll;
+  }
+
+  public static Boolean checkForDouble(int[] roll) {
+      // Check if both dice have the same value
+      Boolean doubleRoll = null;
+      if (roll[0] % 2 == 0 && roll[1] % 2 == 0) {
+          System.out.println("Both dice rolled the same value." + roll[0] + " " + roll[1] + " ");
+          doubleRoll = true;
+      }
+      return doubleRoll;
   }
 
   /**

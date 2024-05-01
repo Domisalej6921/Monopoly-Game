@@ -1,5 +1,6 @@
 package com.cm6123.monopoly;
 
+import com.cm6123.monopoly.app.PlayerProcessing;
 import com.cm6123.monopoly.game.Player;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ public class PlayerChecks {
 
         Scanner scanner = new Scanner(System.in);
         setUpStreams();
-        int result = Player.playerCounterInput(scanner);
+        int result = PlayerProcessing.playerCounterInput(scanner);
         tearDownStreams();
         if (result != 2) {
             System.out.println("Player Input Test Failed: Expected 2, Got " + result);
@@ -54,7 +55,7 @@ public class PlayerChecks {
 
         // Call the method to be tested
         Scanner scanner = new Scanner(System.in);
-        String playerNames = Player.playerNameInput(3, scanner);
+        String playerNames = PlayerProcessing.playerNameInput(3, scanner);
 
         // Check if the output is as expected
         String expectedOutput = "Please name each of the players: (3 -- One after the other.): \n" + "Player Names: \n" + playerNames + "\n";
