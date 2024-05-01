@@ -4,8 +4,12 @@ import com.cm6123.monopoly.game.Player;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerChecks {
     private final InputStream originalSystemIn = System.in;
@@ -36,5 +40,26 @@ public class PlayerChecks {
         } else {
             System.out.println("Player Input Test Passed.");
         }
+    }
+
+    @Test
+    public void testPlayerNameInput() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        // Set up mock input
+        String input = "Player1 Player2 Player3";
+        ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inContent);
+
+        // Call the method to be tested
+        Scanner scanner = new Scanner(System.in);
+        String playerNames = Player.playerNameInput(3, scanner);
+
+        // Check if the output is as expected
+        String expectedOutput = "Please name each of the players: (3 -- One after the other.): \n" + "Player Names: \n" + playerNames + "\n";
+
+        // Check if the returned value is as expected
+        assertEquals("Player1 Player2 Player3", playerNames);
     }
 }

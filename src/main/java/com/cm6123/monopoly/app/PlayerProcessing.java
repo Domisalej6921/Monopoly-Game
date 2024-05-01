@@ -14,6 +14,7 @@ public class PlayerProcessing {
     private void playerProcessing(final Scanner scanner) {
 
         int playerCount = Player.playerCounterInput(scanner);
+        String playerNames = Player.playerNameInput(playerCount, scanner);
     }
 
     /**
