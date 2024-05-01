@@ -13,18 +13,12 @@ public class RoadTest {
         // Create test data
         int propertyId = 2;
         String propertyName = "Main Road";
-        Player owner = null;
-        int price = 0;
-        int rent = 0;
 
         // Create a road instance
-        Road road = new Road(propertyId, propertyName, owner, price, rent);
+        Road road = new Road(propertyId, propertyName);
 
         // Check if properties are initialized correctly
         assertEquals(2, propertyId);
         assertEquals("Main Road", propertyName);
-        assertEquals(null, owner);
-        assertEquals(0, price);
-        assertEquals(0, rent);
     }
 }

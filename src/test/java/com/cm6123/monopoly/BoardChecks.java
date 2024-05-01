@@ -70,11 +70,11 @@ public class BoardChecks {
 
         // Define the expected board configuration for 10 spaces
         String[][] expectedBoard = {
-                {"Home", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " "}
+                {"Home", "Road", "Road", "Road", "Road"},
+                {"Road", "    ", "    ", "    ", "Road"},
+                {"Road", "    ", "    ", "    ", "Road"},
+                {"Road", "    ", "    ", "    ", "Road"},
+                {"Road", "Road", "Road", "Road", "Road"}
         };
 
         // Compare expected and actual boards

@@ -11,7 +11,7 @@
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="269df98e-cc02-4bdb-bbb5-4d695d36bb9f" type="PROJECT_RELATIVE" scope="All" description="Assessment1">
-          $PROJECT_DIR$/config/checkstyle/checkstyleMain.xml
+          $PROJECT_DIR$/../../config/checkstyle/checkstyleMain.xml
           <option name="properties">
             <map>
               <entry key="org.checkstyle.sun.suppressionfilter.config" value="" />

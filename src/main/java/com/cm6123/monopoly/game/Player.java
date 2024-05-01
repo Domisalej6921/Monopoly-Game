@@ -67,13 +67,13 @@ public class Player {
 
         int count = playerCount;
 
+        System.out.print("Please name each of the players: (" + playerCount + " -- One after the other.): \n");
         do {
-            System.out.print("Please name each of the players: (" + playerCount + " -- One after the other.): \n");
-            playerNames = scanner.nextLine();
-        } while (playerNames.isEmpty());
+            playerNames = playerNames + scanner.nextLine();
+        } while (playerNames.isEmpty() || playerCount >= playerNames.length() - 1);
 
         //Prints the Players Names
-        System.out.println("Player Names: \n" + playerNames);
+        System.out.println("Player Names: \n" + playerNames + " \n");
 
         return playerNames;
     }

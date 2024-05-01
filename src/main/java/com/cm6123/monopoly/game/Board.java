@@ -52,7 +52,22 @@ public class Board {
         // Fill the board with empty spaces
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                board[i][j] = " ";
+                board[i][j] = "    ";
+            }
+        }
+
+        String roadProperty = new Road(1, "Road").getRoadName();
+
+        // Print new property or class for each item around the edge of the array
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
+                    board[i][j] = roadProperty;
+                }
+//                // Aligning right column with the last row index
+//                if (j == cols - 1 && i != rows - 1) {
+//                    board[i][j] = board[i][cols - 2];
+//                }
             }
         }
 
