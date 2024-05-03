@@ -24,6 +24,7 @@ public class BoardProcessing {
         int numOfSpaces = Board.boardInput(scanner);
 
         String[][] board = Board.boardCreation(numOfSpaces);
+        Board.printBoard(board);
 
         return board;
     }
@@ -32,9 +33,11 @@ public class BoardProcessing {
      * This method executes the initial processing of the Game Board.
      *
      * @param scanner allows user to input data
+     * @return
      */
-    public static final void boardExecution(final Scanner scanner) {
+    public static final String[][] boardExecution(final Scanner scanner) {
         BoardProcessing exe = new BoardProcessing();
-        exe.boardProcessing(scanner);
+        String[][] board = exe.boardProcessing(scanner);
+        return board;
     }
 }

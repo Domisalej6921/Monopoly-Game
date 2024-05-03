@@ -72,26 +72,34 @@ public class Board {
         // Add labels for special tiles
         board[0][0] = "Home";
 
-        // Print the Monopoly board
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                System.out.print(board[i][j] + "\t");
-            }
-            System.out.println();
-        }
-        System.out.println();
         return board;
     }
 
-    public static int[][] spawnPlayer(final Scanner scanner) {
+    public static void printBoard(final String[][] board) {
 
-        //Default Player Coords
-        int x = 0;
-        int y = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static int[][] spawnPlayer(String[][] board, int x, int y) {
 
         int[][] coords = new int[x][y];
 
-        System.out.println("Player spawned at Square Home.");
+        // Check if the coordinates are within the board's bounds
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+            System.out.println("Invalid coordinates. Player cannot be spawned.");
+            return null;
+        }
+
+        // Place the player symbol on the board
+        board[x][y] = " P  ";
+
+
+        System.out.println("\n\n\nPlayer spawned at Square Home.");
 
         return coords;
     }

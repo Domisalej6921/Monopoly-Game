@@ -31,10 +31,11 @@ public final class Application {
 
         Scanner scanner = new Scanner(System.in);
         BoardProcessing boardProcessing = new BoardProcessing();
-        boardProcessing.boardExecution(scanner);
+        String[][] board = boardProcessing.boardExecution(scanner);
+
 
         PlayerProcessing playerProcessing = new PlayerProcessing();
-        playerProcessing.playerExecution(scanner);
+        playerProcessing.playerExecution(scanner, board);
 
         logger.info("Application closing");
     }

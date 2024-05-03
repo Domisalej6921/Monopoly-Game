@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CheckStyle-IDEA" serialisationVersion="2">
-    <checkstyleVersion>8.29</checkstyleVersion>
+    <checkstyleVersion>10.15.0</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
-    <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
-    <option name="activeLocationIds" />
+    <option name="activeLocationIds">
+      <option value="122325e5-cb5f-49a6-a97c-aef8e4822f6f" />
+    </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="269df98e-cc02-4bdb-bbb5-4d695d36bb9f" type="PROJECT_RELATIVE" scope="All" description="Assessment1">
-          $PROJECT_DIR$/../../config/checkstyle/checkstyleMain.xml
+          $PROJECT_DIR$/../../../../../../config/checkstyle/checkstyleMain.xml
+          <option name="properties">
+            <map>
+              <entry key="org.checkstyle.sun.suppressionfilter.config" value="" />
+              <entry key="org.checkstyle.sun.suppressionxpathfilter.config" value="" />
+            </map>
+          </option>
+        </ConfigurationLocation>
+        <ConfigurationLocation id="122325e5-cb5f-49a6-a97c-aef8e4822f6f" type="LOCAL_FILE" scope="All" description="Project Configuration">
+          $PROJECT_DIR$/config/checkstyle/checkstyleMain.xml
           <option name="properties">
             <map>
               <entry key="org.checkstyle.sun.suppressionfilter.config" value="" />

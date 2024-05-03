@@ -71,7 +71,6 @@ public class PlayerProcessing {
 
         for(int i = 0; i < playerCount; i++) {
             PlayerClass playerClass = new PlayerClass();
-            Board.spawnPlayer(scanner);
         }
     }
 
@@ -80,26 +79,25 @@ public class PlayerProcessing {
      *
      * @param scanner allows user to input data.
      */
-    public static final void playerExecution(final Scanner scanner) {
+    public static final void playerExecution(final Scanner scanner, String[][] board) {
         PlayerProcessing exe = new PlayerProcessing();
         int playerCount = exe.playerCounterInput(scanner);
         String[] playerNames = playerNameInput(playerCount, scanner);
+        boolean gameFinished = false;
 
         Class<?> players = null;
-        for (int i = 0; i < playerCount; i++) {
-            Player player = new Player(playerNames);
-            PlayerClass playerClass = new PlayerClass();
-            PlayerClass.playerTurn(scanner, playerNames);
-            String className = "player" + i;
-            try {
 
-                players = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                System.out.println("Class not found: " + e.getMessage());
+        while(!gameFinished) {
+            for (int i = 0; i < playerCount; i++) {
+                Board.spawnPlayer(board, 0, 0);
+                Player player = new Player(playerNames);
+                PlayerClass playerClass = new PlayerClass();
+                int searchIndex = i;
+                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board);
             }
+
+
+            exe.playerProcessing(playerCount, players, scanner);
         }
-
-
-        exe.playerProcessing(playerCount, players, scanner);
     }
 }
