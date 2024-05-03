@@ -1,8 +1,10 @@
 package com.cm6123.monopoly.app;
 
 import com.cm6123.monopoly.game.Player;
+import com.cm6123.monopoly.game.Board;
 import com.cm6123.monopoly.game.PlayerClass;
 
+import java.sql.Array;
 import java.util.Scanner;
 
 public class PlayerProcessing {
@@ -17,21 +19,20 @@ public class PlayerProcessing {
      */
     public static int playerCounterInput(final Scanner scanner) {
 
-        System.out.print("Please enter the amount of Players (Between 2 and 10): ");
+        System.out.print("\nPlease enter the amount of Players (Between 2 and 10): \n");
         int input = scanner.nextInt();
 
 
         //Validate User Input
         while (input < 2 || input > 11) {
-            System.out.println("Invalid input!Please enter a number between 2 and 10.");
-            System.out.print("Please enter the amount of Players (Between 2 and 10): ");
+            System.out.println("\nInvalid input!Please enter a number between 2 and 10:  \n");
             input = scanner.nextInt();
         }
 
         int playerCount= input;
 
         //Test Code to see Output
-        System.out.println("You have " + playerCount + " players!");
+        System.out.println("\nYou have " + playerCount + " players! \n");
 
         return playerCount;
     }
@@ -44,19 +45,19 @@ public class PlayerProcessing {
      * @param scanner used to get input
      * @return the names of each player
      */
-    public static String playerNameInput(final int playerCount, final Scanner scanner) {
+    public static String[] playerNameInput(final int playerCount, final Scanner scanner) {
 
-        String playerNames = "";
+        String[] playerNames = new String[playerCount];
 
-        int count = playerCount;
+        System.out.print("\nPlease name each of the players: (" + playerCount + " -- One after the other.): \n");
 
-        System.out.print("Please name each of the players: (" + playerCount + " -- One after the other.): \n");
-        do {
-            playerNames = playerNames + scanner.nextLine();
-        } while (playerNames.isEmpty() || playerCount >= playerNames.length() - 1);
-
-        //Prints the Players Names
-        System.out.println("Player Names: \n" + playerNames + " \n");
+        // Fill the array with usernames
+        for (int i = 0; i < playerCount; i++) {
+            System.out.println("Enter username #" + (i + 1) + ": ");
+            do {
+                playerNames[i] = scanner.nextLine().trim();
+            } while (playerNames[i].isEmpty());
+        }
 
         return playerNames;
     }
@@ -70,7 +71,7 @@ public class PlayerProcessing {
 
         for(int i = 0; i < playerCount; i++) {
             PlayerClass playerClass = new PlayerClass();
-            playerClass.playerTurn(player, scanner);
+            Board.spawnPlayer(scanner);
         }
     }
 
@@ -82,13 +83,14 @@ public class PlayerProcessing {
     public static final void playerExecution(final Scanner scanner) {
         PlayerProcessing exe = new PlayerProcessing();
         int playerCount = exe.playerCounterInput(scanner);
-        String playerNames = playerNameInput(playerCount, scanner);
+        String[] playerNames = playerNameInput(playerCount, scanner);
 
-
-        String className = "com.cm6123.monopoly.game.Player;";
         Class<?> players = null;
         for (int i = 0; i < playerCount; i++) {
             Player player = new Player(playerNames);
+            PlayerClass playerClass = new PlayerClass();
+            PlayerClass.playerTurn(scanner, playerNames);
+            String className = "player" + i;
             try {
 
                 players = Class.forName(className);

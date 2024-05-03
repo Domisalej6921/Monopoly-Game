@@ -27,7 +27,7 @@ public final class Application {
 
         logger.info("Application Started with args:{}", String.join(",", args));
 
-        System.out.println("Hello. Welcome to Monopoly.");
+        System.out.println("\nHello. Welcome to Monopoly. \n");
 
         Scanner scanner = new Scanner(System.in);
         BoardProcessing boardProcessing = new BoardProcessing();

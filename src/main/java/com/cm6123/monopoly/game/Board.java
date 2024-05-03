@@ -1,5 +1,7 @@
 package com.cm6123.monopoly.game;
 
+import com.cm6123.monopoly.app.BoardProcessing;
+
 import java.util.Scanner;
 
 
@@ -18,13 +20,13 @@ public class Board {
     public static int boardInput(final Scanner scanner) {
 
         //Prompt the user to specify the size of the board
-        System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): ");
+        System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): \n");
         int userInput = scanner.nextInt();
 
         //Validate User Input
         while (userInput < 10 || userInput > 51) {
-            System.out.println("Invalid input!Please enter a number between 10 and 50");
-            System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): ");
+            System.out.println("\nInvalid input!Please enter a number between 10 and 50: \n");
+            System.out.print("Please enter the number of spaces you would like on the Monopoly board (between 10 & 50): \n");
             userInput = scanner.nextInt();
         }
 
@@ -41,7 +43,7 @@ public class Board {
      * @return the board to be used elsewhere in the program
      */
     public static String[][] boardCreation(final int numOfSpaces) {
-        System.out.println("Monopoly Board: ");
+        System.out.println("\nMonopoly Board: \n");
 
         // Define the dimensions of the board
         int rows = numOfSpaces / 2;
@@ -64,10 +66,6 @@ public class Board {
                 if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
                     board[i][j] = roadProperty;
                 }
-//                // Aligning right column with the last row index
-//                if (j == cols - 1 && i != rows - 1) {
-//                    board[i][j] = board[i][cols - 2];
-//                }
             }
         }
 
@@ -81,6 +79,20 @@ public class Board {
             }
             System.out.println();
         }
+        System.out.println();
         return board;
+    }
+
+    public static int[][] spawnPlayer(final Scanner scanner) {
+
+        //Default Player Coords
+        int x = 0;
+        int y = 0;
+
+        int[][] coords = new int[x][y];
+
+        System.out.println("Player spawned at Square Home.");
+
+        return coords;
     }
 }

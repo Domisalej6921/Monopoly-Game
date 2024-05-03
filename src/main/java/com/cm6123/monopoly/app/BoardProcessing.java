@@ -10,16 +10,22 @@ import java.util.Scanner;
 public class BoardProcessing {
 
     /**
+     * Initialises the board variable.
+     */
+    private String[][] board;
+
+    /**
      * This default constructor handles with the initial proccessing of the board when the user specifies the sixe of the board they want.
      *
      * @param scanner allows user to input data
      */
-    private void boardProcessing(final Scanner scanner) {
+    public String[][] boardProcessing(final Scanner scanner) {
 
         int numOfSpaces = Board.boardInput(scanner);
 
-        Board.boardCreation(numOfSpaces);
+        String[][] board = Board.boardCreation(numOfSpaces);
 
+        return board;
     }
 
     /**
