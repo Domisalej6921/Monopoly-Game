@@ -4,7 +4,6 @@ import com.cm6123.monopoly.game.Player;
 import com.cm6123.monopoly.game.Board;
 import com.cm6123.monopoly.game.PlayerClass;
 
-import java.sql.Array;
 import java.util.Scanner;
 
 public class PlayerProcessing {
@@ -65,6 +64,8 @@ public class PlayerProcessing {
     /**
      * Handles the processing of player data.
      *
+     * @param playerCount
+     * @param player
      * @param scanner allows user input.
      */
     private void playerProcessing(final int playerCount, final Class<?> player, final Scanner scanner) {
@@ -78,8 +79,9 @@ public class PlayerProcessing {
      * Executes the processing of user data.
      *
      * @param scanner allows user to input data.
+     * @param board
      */
-    public static final void playerExecution(final Scanner scanner, String[][] board) {
+    public static final void playerExecution(final Scanner scanner, final String[][] board) {
         PlayerProcessing exe = new PlayerProcessing();
         int playerCount = exe.playerCounterInput(scanner);
         String[] playerNames = playerNameInput(playerCount, scanner);
@@ -89,10 +91,10 @@ public class PlayerProcessing {
 
         while(!gameFinished) {
             for (int i = 0; i < playerCount; i++) {
-                Board.spawnPlayer(board, 0, 0);
+                int searchIndex = i;
+                Board.spawnPlayer(board, 0, 0, searchIndex);
                 Player player = new Player(playerNames);
                 PlayerClass playerClass = new PlayerClass();
-                int searchIndex = i;
                 PlayerClass.playerTurn(scanner, playerNames, searchIndex, board);
             }
 

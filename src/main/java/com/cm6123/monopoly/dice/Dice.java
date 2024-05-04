@@ -26,6 +26,10 @@ public class Dice {
     return tempRoll.intValue();
   }
 
+    /**
+     * Processes the rolling of two dice.
+     * @return the value of both rolls.
+     */
   public static int[] rollTwoDice() {
     int roll1 = roll();
     int roll2 = roll();
@@ -35,7 +39,12 @@ public class Dice {
     return roll;
   }
 
-  public static Boolean checkForDouble(int[] roll) {
+    /**
+     * checks the value of the users roll to use elsewhere.
+     * @param roll
+     * @return a boolean if double is true or not.
+     */
+  public static Boolean checkForDouble(final int[] roll) {
       // Check if both dice have the same value
       Boolean doubleRoll = null;
       if (roll[0] % 2 == 0 && roll[1] % 2 == 0) {

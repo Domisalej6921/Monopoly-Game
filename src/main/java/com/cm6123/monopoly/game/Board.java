@@ -1,7 +1,5 @@
 package com.cm6123.monopoly.game;
 
-import com.cm6123.monopoly.app.BoardProcessing;
-
 import java.util.Scanner;
 
 
@@ -75,6 +73,10 @@ public class Board {
         return board;
     }
 
+    /**
+     * Method to print the board when called.
+     * @param board
+     */
     public static void printBoard(final String[][] board) {
 
         for (int i = 0; i < board.length; i++) {
@@ -85,7 +87,15 @@ public class Board {
         }
     }
 
-    public static int[][] spawnPlayer(String[][] board, int x, int y) {
+    /**
+     * method to spawn a player at the Home space on the board.
+     * @param board
+     * @param x
+     * @param y
+     * @param searchIndex
+     * @return the coords of where the player spawned at.
+     */
+    public static int[][] spawnPlayer(final String[][] board, final int x, final int y, final int searchIndex) {
 
         int[][] coords = new int[x][y];
 
@@ -96,7 +106,7 @@ public class Board {
         }
 
         // Place the player symbol on the board
-        board[x][y] = " P  ";
+        board[x][y] = " P" + (searchIndex + 1) + " ";
 
 
         System.out.println("\n\n\nPlayer spawned at Square Home.");

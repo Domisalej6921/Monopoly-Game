@@ -18,6 +18,7 @@ public class BoardProcessing {
      * This default constructor handles with the initial proccessing of the board when the user specifies the sixe of the board they want.
      *
      * @param scanner allows user to input data
+     * @return the board when finsihed processing.
      */
     public String[][] boardProcessing(final Scanner scanner) {
 
@@ -33,7 +34,7 @@ public class BoardProcessing {
      * This method executes the initial processing of the Game Board.
      *
      * @param scanner allows user to input data
-     * @return
+     * @return board after execution.
      */
     public static final String[][] boardExecution(final Scanner scanner) {
         BoardProcessing exe = new BoardProcessing();
