@@ -23,8 +23,9 @@ public class PlayerClass {
 
         String activePlayer = Player.getPlayerName(playerNames, searchIndex);
 
-        System.out.println("Welcome " + activePlayer + " its your turn! \n");
+        System.out.println("\n\nWelcome " + activePlayer + " its your turn! \n");
 
+        board[Player.lastX][Player.lastY] = " P" + (searchIndex + 1) + " ";
         Board.printBoard(board);
 
         System.out.println("Press enter to continue your turn...");
@@ -36,8 +37,9 @@ public class PlayerClass {
 
         //Checks if player rolled a double
         Boolean doubleRoll = dice.checkForDouble(result);
-        if (doubleRoll == null) {
-            System.out.println("\nYou rolled " + result[0] + " and " + result[1] + "!\n");
+        System.out.println("\nYou rolled " + result[0] + " and " + result[1] + "!\n");
+        if (doubleRoll == true) {
+            System.out.println("You rolled a double! Congrats\n");
         }
 
         int totalMove = result[0] + result[1];

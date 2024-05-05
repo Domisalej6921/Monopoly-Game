@@ -10,6 +10,11 @@ public class Board {
     private String[] board;
 
     /**
+     * Creates the Array that the board will be stored in.
+     */
+    public static String[][] originalBoard;
+
+    /**
      * Obtains the user's input for the board size and checks if it is valid.
      *
      * @param scanner is used for the program to grab the user's input
@@ -70,6 +75,13 @@ public class Board {
         // Add labels for special tiles
         board[0][0] = "Home";
 
+        originalBoard = new String[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                originalBoard[i][j] = board[i][j];
+            }
+        }
+
         return board;
     }
 
@@ -106,10 +118,9 @@ public class Board {
         }
 
         // Place the player symbol on the board
-        board[x][y] = " P" + (searchIndex + 1) + " ";
+        String playerSymbol = " P" + (searchIndex) + " ";
 
-
-        System.out.println("\n\n\nPlayer spawned at Square Home.");
+        board[x][y] = playerSymbol;
 
         return coords;
     }

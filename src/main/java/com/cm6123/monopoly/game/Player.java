@@ -22,6 +22,10 @@ public class Player {
      */
     private static int y;
 
+    public static int lastX;
+
+    public static int lastY;
+
     /**
      * constructor for the player class.
      *
@@ -59,7 +63,9 @@ public class Player {
     public static String[][] movePlayer(final String[][] board, final int totalMove, final int searchIndex) {
         int [] coords = new int[2];
         String playerSymbol = " P ";
-        String[][] oldBoard = board;
+        lastX = x;
+        lastY = y;
+
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -75,14 +81,10 @@ public class Player {
         int x = coords[0];
         int y = coords[1];
 
-        //Clears current player position
-        board[x][y] = "Home";
-
         // Calculate new player position based on totalMove
         int totalSpaces = 2 * board.length + 2 * (board[0].length - 2);
 
         //Calculate current position and new position
-
         int currentPosition = x + y;
         if (x == 0) {
             currentPosition = y;
@@ -111,9 +113,15 @@ public class Player {
             y = 0;
         }
 
+        // Restore the board to its original state
+        for (int i = 0; i < Board.originalBoard.length; i++) {
+            for (int j = 0; j < Board.originalBoard[0].length; j++) {
+                board[i][j] = Board.originalBoard[i][j];
+            }
+        }
+
         //Update Player Position
         board[x][y] = playerSymbol;
-        System.out.println("Player " + playerSymbol + " moved to " + x + ", " + y);
 
         return board;
     }

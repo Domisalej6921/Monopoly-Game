@@ -89,10 +89,16 @@ public class PlayerProcessing {
 
         Class<?> players = null;
 
+        //Spawning players on the board
+        for (int i = 0; i < playerCount; i++) {
+            int searchIndex = i;
+            Board.spawnPlayer(board, 0, 0, searchIndex);
+        }
+
+        //Game Loop
         while(!gameFinished) {
             for (int i = 0; i < playerCount; i++) {
                 int searchIndex = i;
-                Board.spawnPlayer(board, 0, 0, searchIndex);
                 Player player = new Player(playerNames);
                 PlayerClass playerClass = new PlayerClass();
                 PlayerClass.playerTurn(scanner, playerNames, searchIndex, board);

@@ -47,9 +47,11 @@ public class Dice {
   public static Boolean checkForDouble(final int[] roll) {
       // Check if both dice have the same value
       Boolean doubleRoll = null;
-      if (roll[0] % 2 == 0 && roll[1] % 2 == 0) {
+      if (roll[0] == roll[1]) {
           System.out.println("\nBoth dice rolled the same value." + roll[0] + " " + roll[1] + "!\n");
           doubleRoll = true;
+      } else {
+            doubleRoll = false;
       }
       return doubleRoll;
   }
