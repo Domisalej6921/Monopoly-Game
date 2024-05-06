@@ -1,5 +1,8 @@
 package com.cm6123.monopoly.game;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Player {
 
     /**
@@ -10,21 +13,21 @@ public class Player {
     /**
      * Initiates default balance value.
      */
-    private int balance;
+    private static Map<String, Integer> playerBalances = new HashMap<>();
 
     /**
      * Initialises player x location on board.
      */
-    private static int x;
+    private int x;
 
     /**
      * Initialises player y location on board.
      */
-    private static int y;
+    private int y;
 
-    public static int lastX;
+    public int lastX;
 
-    public static int lastY;
+    public int lastY;
 
     /**
      * constructor for the player class.
@@ -33,7 +36,9 @@ public class Player {
      */
     public Player(final String[] name) {
         this.playerName = name;
-        this.balance = 1000;
+        for (String playerName : name) {
+            playerBalances.put(playerName, 1000);
+        }
         this.x = 0;
         this.y = 0;
     }
@@ -52,6 +57,15 @@ public class Player {
         return null;
     }
 
+    public static int getBalance(final String playerName) {
+        return playerBalances.getOrDefault(playerName, 1000);
+    }
+
+    public static void addBalance(final String playerName, final int amount) {
+        int currentBalance = getBalance(playerName);
+        playerBalances.put(playerName, currentBalance + amount);
+    }
+
 
     /**
      * used to move the player around the board String[][].
@@ -60,11 +74,11 @@ public class Player {
      * @param searchIndex
      * @return old board.
      */
-    public static String[][] movePlayer(final String[][] board, final int totalMove, final int searchIndex) {
+    public static String[][] movePlayer(final String[][] board, final int totalMove, final int searchIndex, final String activePlayer, final Player playerInstance) {
         int [] coords = new int[2];
         String playerSymbol = " P ";
-        lastX = x;
-        lastY = y;
+        playerInstance.lastX = playerInstance.x;
+        playerInstance.lastY = playerInstance.y;
 
 
         for (int i = 0; i < board.length; i++) {
@@ -98,6 +112,11 @@ public class Player {
 
         int newPosition = (currentPosition + totalMove) % totalSpaces;
 
+        int oldPosition = currentPosition;
+        if (newPosition < oldPosition) {
+            addBalance(activePlayer, 200);
+        }
+
         //Convert new position back to 2D coordinates
         if (newPosition < board[0].length) {
             x = 0;
@@ -116,12 +135,20 @@ public class Player {
         // Restore the board to its original state
         for (int i = 0; i < Board.originalBoard.length; i++) {
             for (int j = 0; j < Board.originalBoard[0].length; j++) {
-                board[i][j] = Board.originalBoard[i][j];
+                if (!(i == playerInstance.lastX && j == playerInstance.lastY) && !Board.originalBoard[i][j].equals(" P" + (searchIndex + 1) + " ")) {
+                    board[i][j] = Board.originalBoard[i][j];
+                }
             }
         }
 
         //Update Player Position
         board[x][y] = playerSymbol;
+
+        playerInstance.lastX = x;
+        playerInstance.lastY = y;
+
+        playerInstance.x = x;
+        playerInstance.y = y;
 
         return board;
     }

@@ -68,7 +68,7 @@ public class PlayerProcessing {
      * @param player
      * @param scanner allows user input.
      */
-    private void playerProcessing(final int playerCount, final Class<?> player, final Scanner scanner) {
+    private void playerProcessing(final int playerCount, final Player[] player, final Scanner scanner) {
 
         for(int i = 0; i < playerCount; i++) {
             PlayerClass playerClass = new PlayerClass();
@@ -87,7 +87,11 @@ public class PlayerProcessing {
         String[] playerNames = playerNameInput(playerCount, scanner);
         boolean gameFinished = false;
 
-        Class<?> players = null;
+
+        Player[] players = new Player[playerNames.length];
+        for (int i = 0; i < playerNames.length; i++) {
+            players[i] = new Player(playerNames);
+        }
 
         //Spawning players on the board
         for (int i = 0; i < playerCount; i++) {
@@ -96,12 +100,11 @@ public class PlayerProcessing {
         }
 
         //Game Loop
-        while(!gameFinished) {
+        while (!gameFinished) {
             for (int i = 0; i < playerCount; i++) {
                 int searchIndex = i;
-                Player player = new Player(playerNames);
-                PlayerClass playerClass = new PlayerClass();
-                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board);
+                Player currentPlayer = players[i];
+                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer);
             }
 
 
