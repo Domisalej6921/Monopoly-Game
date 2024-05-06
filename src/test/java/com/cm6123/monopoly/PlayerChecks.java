@@ -2,6 +2,9 @@ package com.cm6123.monopoly;
 
 import com.cm6123.monopoly.app.PlayerProcessing;
 import com.cm6123.monopoly.game.Player;
+import com.cm6123.monopoly.game.Board;
+import com.cm6123.monopoly.game.PlayerClass;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -11,10 +14,11 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerChecks {
     private final InputStream originalSystemIn = System.in;
+    private Player player;
 
     public void setUpStreams() {
         // Redirect System.in to provide input for playerInput method
@@ -25,6 +29,11 @@ public class PlayerChecks {
     public void tearDownStreams() {
         // Restore original System.in
         System.setIn(originalSystemIn);
+    }
+
+    @BeforeEach
+    public void setUp() {
+        player = new Player("TestPlayer");
     }
 
     @Test
@@ -51,13 +60,31 @@ public class PlayerChecks {
         String[] input = {"Player1", "Player2", "Player3"};
 
         // Call the method to be tested
-        Scanner scanner = new Scanner(Arrays.toString(input));
+        Scanner scanner = new Scanner(String.join("\n", input));
         String[] playerNames = PlayerProcessing.playerNameInput(3, scanner);
 
         // Check if the output is as expected
-        String expectedOutput = "Please name each of the players: (3 -- One after the other.): \n" + "Player Names: \n" + playerNames + "\n";
+        String expectedOutput = "Please name each of the players: (3 -- One after the other.): \n" + "Player Names: \n" + Arrays.toString(playerNames) + "\n";
 
         // Check if the returned value is as expected
-        assertEquals(input, playerNames);
+        assertArrayEquals(input, playerNames);
+    }
+
+    @Test
+    public void testGetPlayerName() {
+        String[] playerNames = {"TestPlayer", "Player2"};
+        assertEquals("TestPlayer", Player.getPlayerName(playerNames, 0));
+        assertNull(Player.getPlayerName(playerNames, 2));
+    }
+
+    @Test
+    public void testGetBalance() {
+        assertEquals(1000, Player.getBalance());
+    }
+
+    @Test
+    public void testAddBalance() {
+        Player.addBalance("TestPlayer", 500);
+        assertEquals(1500, Player.getBalance());
     }
 }

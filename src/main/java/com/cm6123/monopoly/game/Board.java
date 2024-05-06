@@ -7,12 +7,12 @@ public class Board {
     /**
      * Creates the Array that the board will be stored in.
      */
-    private String[] board;
+    private static String[][] board;
 
     /**
      * Creates the Array that the board will be stored in.
      */
-    public static String[][] originalBoard;
+    private static String[][] originalBoard;
 
     /**
      * Obtains the user's input for the board size and checks if it is valid.
@@ -52,7 +52,7 @@ public class Board {
         int rows = numOfSpaces / 2;
         int cols = numOfSpaces / 2;
 
-        String[][] board = new String[rows][cols];
+        board = new String[rows][cols];
 
         // Fill the board with empty spaces
         for (int i = 0; i < rows; i++) {
@@ -97,6 +97,15 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Getter for originalBoard.
+     * @return originalBoard
+     */
+    public static String[][] getOriginalBoard() {
+        String[][] originalBoard = board;
+        return originalBoard;
     }
 
     /**

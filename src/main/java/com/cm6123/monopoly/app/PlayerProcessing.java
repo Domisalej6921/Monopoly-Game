@@ -23,7 +23,7 @@ public class PlayerProcessing {
 
 
         //Validate User Input
-        while (input < 2 || input > 11) {
+        while (input < 2 || input > 10) {
             System.out.println("\nInvalid input!Please enter a number between 2 and 10:  \n");
             input = scanner.nextInt();
         }
@@ -62,6 +62,26 @@ public class PlayerProcessing {
     }
 
     /**
+     * Obtains the user's input for the number of rounds and checks if it is valid.
+     *
+     * @param scanner is used for the program to grab the user's input
+     * @return the user's input of the number of rounds.
+     */
+    public static int roundInput(final Scanner scanner) {
+        System.out.print("Please enter the number of rounds you would like to play: \n");
+        int roundInput = scanner.nextInt();
+
+        // Validate User Input
+        while (roundInput <= 0) {
+            System.out.println("\nInvalid input! Please enter a positive number: \n");
+            System.out.print("Please enter the number of rounds you would like to play: \n");
+            roundInput = scanner.nextInt();
+        }
+
+        return roundInput;
+    }
+
+    /**
      * Handles the processing of player data.
      *
      * @param playerCount
@@ -86,11 +106,12 @@ public class PlayerProcessing {
         int playerCount = exe.playerCounterInput(scanner);
         String[] playerNames = playerNameInput(playerCount, scanner);
         boolean gameFinished = false;
-
+        int roundCount = roundInput(scanner);
+        int currentRound = 0;
 
         Player[] players = new Player[playerNames.length];
         for (int i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(playerNames);
+            players[i] = new Player(playerNames[i]);
         }
 
         //Spawning players on the board
@@ -107,8 +128,29 @@ public class PlayerProcessing {
                 PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer);
             }
 
+            currentRound++;
 
-            exe.playerProcessing(playerCount, players, scanner);
+            if (currentRound == roundCount) {
+                gameFinished = true;
+                System.out.println("Game Over! Rounds has been completed!");
+
+                //Find player with the highest balance and make them winner
+                Player winner = players[0];
+                String winnerName = playerNames[0];
+                for (int i = 1; i < playerCount; i++) {
+                    if (players[i].getBalance() > winner.getBalance()) {
+                        winner = players[i];
+                        winnerName = playerNames[i];
+                        System.out.println("The winner is: " + winnerName + " with a balance of " + winner.getBalance() + "!");
+                    } else if (Player.getBalance() == winner.getBalance()) {
+                        System.out.println("It's a tie!");
+                    } else {
+                        System.out.println("No winner!");
+                    }
+                }
+            } else {
+                exe.playerProcessing(playerCount, players, scanner);
+            }
         }
     }
 }

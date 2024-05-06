@@ -24,10 +24,10 @@ public class BoardProcessing {
 
         int numOfSpaces = Board.boardInput(scanner);
 
-        String[][] board = Board.boardCreation(numOfSpaces);
-        Board.printBoard(board);
+        String[][] localBoard = Board.boardCreation(numOfSpaces);
+        Board.printBoard(localBoard);
 
-        return board;
+        return localBoard;
     }
 
     /**
