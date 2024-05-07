@@ -1,6 +1,7 @@
 package com.cm6123.monopoly.app;
 
 import com.cm6123.monopoly.game.Board;
+import com.cm6123.monopoly.game.Properties;
 
 import java.util.Scanner;
 
@@ -24,7 +25,7 @@ public class BoardProcessing {
 
         int numOfSpaces = Board.boardInput(scanner);
 
-        String[][] localBoard = Board.boardCreation(numOfSpaces);
+        String[][] localBoard = Board.boardCreation(numOfSpaces, Properties.getProperties(numOfSpaces));
         Board.printBoard(localBoard);
 
         return localBoard;

@@ -1,5 +1,6 @@
 package com.cm6123.monopoly.game;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -7,12 +8,12 @@ public class Board {
     /**
      * Creates the Array that the board will be stored in.
      */
-    private static String[][] board;
+    private String[][] board;
 
     /**
      * Creates the Array that the board will be stored in.
      */
-    private static String[][] originalBoard;
+    private String[][] originalBoard;
 
     /**
      * Obtains the user's input for the board size and checks if it is valid.
@@ -42,40 +43,45 @@ public class Board {
      * Creates the board String[][] and prints it in the terminal.
      *
      * @param numOfSpaces number of spaces the user wants the monopoly board to have.
-     *
+     * @param properties list of properties to be placed on the board.
      * @return the board to be used elsewhere in the program
      */
-    public static String[][] boardCreation(final int numOfSpaces) {
+    public static String[][] boardCreation(final int numOfSpaces, final List<Properties> properties) {
         System.out.println("\nMonopoly Board: \n");
 
         // Define the dimensions of the board
         int rows = numOfSpaces / 2;
         int cols = numOfSpaces / 2;
 
-        board = new String[rows][cols];
+        String[][] board = new String[rows][cols];
 
         // Fill the board with empty spaces
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                board[i][j] = "    ";
+                board[i][j] = "           ";
             }
         }
 
-        String roadProperty = new Road(1, "Road").getRoadName();
-
+        int propertyIndex = 0;
         // Print new property or class for each item around the edge of the array
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
-                    board[i][j] = roadProperty;
+                    if (properties.isEmpty()) {
+                        System.out.println("Error: Properties list is empty.");
+                        return null;
+                    } else {
+                        board[i][j] = properties.get(propertyIndex).getPropertyName();
+                        propertyIndex = (propertyIndex + 1) % properties.size();
+                    }
                 }
             }
         }
 
         // Add labels for special tiles
-        board[0][0] = "Home";
+        board[0][0] = "   Home    ";
 
-        originalBoard = new String[rows][cols];
+        String[][] originalBoard = new String[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 originalBoard[i][j] = board[i][j];
@@ -92,8 +98,8 @@ public class Board {
     public static void printBoard(final String[][] board) {
 
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                System.out.print(board[i][j] + " ");
+            for (int j = 0; j < board[i].length; j++) {
+                System.out.print(board[i][j] + "|");
             }
             System.out.println();
         }
@@ -101,9 +107,12 @@ public class Board {
 
     /**
      * Getter for originalBoard.
+     *
+     * @param board
+     *
      * @return originalBoard
      */
-    public static String[][] getOriginalBoard() {
+    public static String[][] getOriginalBoard(final String[][] board) {
         String[][] originalBoard = board;
         return originalBoard;
     }
@@ -127,7 +136,7 @@ public class Board {
         }
 
         // Place the player symbol on the board
-        String playerSymbol = " P" + (searchIndex) + " ";
+        String playerSymbol = "    P" + (searchIndex) + "     ";
 
         board[x][y] = playerSymbol;
 

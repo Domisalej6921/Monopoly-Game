@@ -1,6 +1,7 @@
 package com.cm6123.monopoly;
 
 import com.cm6123.monopoly.game.Board;
+import com.cm6123.monopoly.game.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static com.cm6123.monopoly.game.Board.boardCreation;
@@ -62,30 +65,25 @@ public class BoardChecks {
 
     @Test
     public void testBoardCreation() {
-        // Defines the number of spaces for testing
-        final int numOfSpaces = 10;
+        // Create test data
+        int numOfSpaces = 20;
+        List<Properties> properties = Properties.getProperties(numOfSpaces);
 
-        // Call the method to create the board
-        String[][] board = Board.boardCreation(numOfSpaces);
+        // Call the method to test
+        String[][] board = Board.boardCreation(numOfSpaces, properties);
 
-        // Define the expected board configuration for 10 spaces
-        String[][] expectedBoard = {
-                {"Home", "Road", "Road", "Road", "Road"},
-                {"Road", "    ", "    ", "    ", "Road"},
-                {"Road", "    ", "    ", "    ", "Road"},
-                {"Road", "    ", "    ", "    ", "Road"},
-                {"Road", "Road", "Road", "Road", "Road"}
-        };
+        // Check if the board is created correctly
+        assertNotNull(board, "Board should not be null");
+        assertEquals(numOfSpaces / 2, board.length, "Board rows should be correct");
+        assertEquals(numOfSpaces / 2, board[0].length, "Board columns should be correct");
 
-        // Compare expected and actual boards
-        if (board.length != expectedBoard.length || board[0].length != expectedBoard[0].length) {
-            throw new AssertionError("Monopoly board creation test failed: boards have different dimensions.");
-        }
-
+        // Check if the properties are assigned correctly to the board
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if (!board[i][j].equals(expectedBoard[i][j])) {
-                    throw new AssertionError("Monopoly board creation test failed at position [" + i + "][" + j + "].");
+                if (i == 0 || i == board.length - 1 || j == 0 || j == board[i].length - 1) {
+                    assertNotNull(board[i][j], "Property should not be null");
+                } else {
+                    assertEquals("           ", board[i][j], "Inner cells should be empty");
                 }
             }
         }

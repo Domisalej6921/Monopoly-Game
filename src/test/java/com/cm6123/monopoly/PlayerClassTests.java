@@ -3,6 +3,7 @@ package com.cm6123.monopoly;
 import com.cm6123.monopoly.game.Player;
 import com.cm6123.monopoly.game.PlayerClass;
 import com.cm6123.monopoly.game.Board;
+import com.cm6123.monopoly.game.Properties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class PlayerClassTests {
     public void testPlayerTurn() {
         // Set up mock input
         String[] playerNames = {"Player1", "Player2", "Player3"};
-        String[][] board = Board.boardCreation(20);
+        String[][] board = Board.boardCreation(20, Properties.getProperties(20));
         Player currentPlayer = new Player("TestPlayer");
         int searchIndex = 0;
         ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());

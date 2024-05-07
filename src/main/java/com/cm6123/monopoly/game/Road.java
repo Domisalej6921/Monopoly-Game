@@ -1,25 +1,18 @@
 package com.cm6123.monopoly.game;
 
-public final class Road {
-
-    /**
-     * initialises the propertyId variable.
-     */
-    private final int propertyId;
-
-    /**
-     * Initialises the propertyName variable.
-     */
-    private final String propertyName;
+public final class Road extends Properties {
 
     /**
      * Default constructor which inherits the attributes of the super class.
-     * @param id
-     * @param name
+     *
+     * @param propertyName
+     * @param propertyType
+     * @param owner
+     * @param price
+     * @param rent
      */
-    public Road(final int id, final String name) {
-        this.propertyId = id;
-        this.propertyName = name;
+    public Road(final String propertyName, final PropertyType propertyType, final Player owner, final int price, final int rent) {
+        super(propertyName, propertyType, owner, price, rent);
     }
 
     /**

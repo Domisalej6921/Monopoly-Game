@@ -66,6 +66,22 @@ public class Player {
     }
 
     /**
+     * used to get player's X location.
+     * @return x.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * used to get player's Y location.
+     * @return y.
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
      * used to get player's name.
      * @param playerNames
      * @param searchIndex
@@ -110,16 +126,12 @@ public class Player {
     public static String[][] movePlayer(final String[][] board, final int totalMove, final int searchIndex, final String activePlayer, final Player playerInstance) {
         int [] coords = new int[2];
         String playerSymbol = " P ";
-        playerInstance.lastX = playerInstance.x;
-        playerInstance.lastY = playerInstance.y;
 
-        String[][] originalBoard = getOriginalBoard();
-
+        String[][] originalBoard = getOriginalBoard(board);
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-
-                playerSymbol = " P" + (searchIndex + 1) + " ";
+                playerSymbol = "     P" + (searchIndex + 1) + "    ";
                 if (board[i][j].equals(playerSymbol)) { // If player's symbol is found
                     coords[0] = i;
                     coords[1] = j;
@@ -131,16 +143,16 @@ public class Player {
         int y = coords[1];
 
         // Calculate new player position based on totalMove
-        int totalSpaces = 2 * board.length + 2 * (board[0].length - 2);
+        int totalSpaces = 2 * (board.length + board[0].length);
 
         //Calculate current position and new position
         int currentPosition = x + y;
         if (x == 0) {
             currentPosition = y;
         } else if (y == board[0].length - 1) {
-            currentPosition = board[0].length - 1 + x;
+            currentPosition = board[0].length + x;
         } else if(x == board.length - 1) {
-            currentPosition = board.length - 1 + 2 * (board[0].length - 1) - y;
+            currentPosition = board.length + board[0].length + (board[0].length - y - 1);
         } else if (y == 0) {
             currentPosition = totalSpaces - x;
         }
@@ -156,22 +168,26 @@ public class Player {
         if (newPosition < board[0].length) {
             x = 0;
             y = newPosition;
-        } else if (newPosition < board[0].length + board.length - 1) {
-            x = newPosition - board[0].length + 1;
+        } else if (newPosition < board[0].length + board.length) {
+            x = newPosition - board[0].length;
             y = board[0].length - 1;
-        } else if (newPosition < 2 * board[0].length + board.length - 2) {
+        } else if (newPosition < 2 * board[0].length + board.length) {
             x = board.length - 1;
-            y = 2 * board[0].length + board.length - 2 - newPosition - 1;
+            y = 2 * board[0].length + board.length - newPosition - 1;
         } else {
             x = totalSpaces - newPosition;
             y = 0;
         }
 
+        Player.printPlayerPosition(x, y, board);
+
         // Restore the board to its original state
-        for (int i = 0; i < Board.getOriginalBoard().length; i++) {
-            for (int j = 0; j < Board.getOriginalBoard()[0].length; j++) {
-                if (!(i == playerInstance.lastX && j == playerInstance.lastY) && !Board.getOriginalBoard()[i][j].equals(" P" + (searchIndex + 1) + " ")) {
-                    board[i][j] = Board.getOriginalBoard()[i][j];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (i == playerInstance.lastX && j == playerInstance.lastY) {
+                    board[i][j] = originalBoard[i][j];
+                } else if (!(i == playerInstance.x && j == playerInstance.y)) {
+                    board[i][j] = originalBoard[i][j];
                 }
             }
         }
@@ -179,12 +195,35 @@ public class Player {
         //Update Player Position
         board[x][y] = playerSymbol;
 
-        playerInstance.lastX = x;
-        playerInstance.lastY = y;
+        playerInstance.lastX = playerInstance.x;
+        playerInstance.lastY = playerInstance.y;
 
         playerInstance.x = x;
         playerInstance.y = y;
 
         return board;
+    }
+
+    /**
+     * used to print the player's position on the board.
+     * @param newX
+     * @param newY
+     * @param board
+     */
+    public static void printPlayerPosition(final int newX, final int newY, final String[][] board) {
+
+        // Check if the coordinates are within the board's bounds
+        if (newX < 0 || newX >= board.length || newY < 0 || newY >= board[0].length) {
+            System.out.println("Invalid coordinates. Player's position cannot be printed.");
+            return;
+        }
+
+        //Get the player's current position
+        int x = newX;
+        int y = newY;
+
+        String property = board[x][y];
+
+        System.out.println("\nYou are currently at: " + property);
     }
 }

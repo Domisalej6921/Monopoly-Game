@@ -68,7 +68,7 @@ public class PlayerProcessing {
      * @return the user's input of the number of rounds.
      */
     public static int roundInput(final Scanner scanner) {
-        System.out.print("Please enter the number of rounds you would like to play: \n");
+        System.out.print("\n\nPlease enter the number of rounds you would like to play: \n");
         int roundInput = scanner.nextInt();
 
         // Validate User Input

@@ -26,7 +26,7 @@ public class PlayerClass {
 
         System.out.println("\n\nWelcome " + activePlayer + " its your turn! \n");
 
-        board[currentPlayer.getLastX()][currentPlayer.getLastY()] = " P" + (searchIndex + 1) + " ";
+        board[currentPlayer.getLastX()][currentPlayer.getLastY()] = "    P" + (searchIndex + 1) + "     ";
         Board.printBoard(board);
 
         System.out.println("Press enter to continue your turn...");
@@ -46,7 +46,7 @@ public class PlayerClass {
         int totalMove = result[0] + result[1];
 
         // Update the player's position
-        board[currentPlayer.getLastX()][currentPlayer.getLastY()] = " P" + (searchIndex + 1) + " ";
+        board[currentPlayer.getLastX()][currentPlayer.getLastY()] = "    P" + (searchIndex + 1) + "     ";
 
         String[][] updatedBoard = Player.movePlayer(board, totalMove, searchIndex, activePlayer, currentPlayer);
 
@@ -54,6 +54,5 @@ public class PlayerClass {
 
 
         System.out.println("\nYour Balance is: " + currentPlayer.getBalance());
-        System.out.println("\nYour at "); // get location on board.
     }
 }

@@ -1,33 +1,18 @@
 package com.cm6123.monopoly.game;
 
-public class TaxOffice {
-
-    /**
-     * Intitialises propertyId variable.
-     */
-    private final int propertyId;
-
-    /**
-     * Intitialises propertyName variable.
-     */
-    private final String propertyName;
-
-    /**
-     * Intitialises rent variable.
-     */
-    private final int tax;
+public class TaxOffice extends Properties {
 
     /**
      *
      * contructor for the class.
      *
-     * @param id
-     * @param name
-     * @param fine
+     * @param propertyName
+     * @param propertyType
+     * @param owner
+     * @param price
+     * @param rent
      */
-    public TaxOffice(final int id, final String name, final int fine) {
-        this.propertyId = id;
-        this.propertyName = name;
-        this.tax = fine;
+    public TaxOffice(final String propertyName, final PropertyType propertyType, final Player owner, final int price, final int rent) {
+        super(propertyName, propertyType, owner, price, rent);
     }
 }

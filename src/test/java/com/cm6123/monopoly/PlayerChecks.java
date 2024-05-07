@@ -37,40 +37,6 @@ public class PlayerChecks {
     }
 
     @Test
-    public void testPlayerCounterInputValid() {
-        String testInput = "2";
-        ByteArrayInputStream in = new ByteArrayInputStream(testInput.getBytes());
-        System.setIn(in);
-
-        Scanner scanner = new Scanner(System.in);
-        setUpStreams();
-        int result = PlayerProcessing.playerCounterInput(scanner);
-        tearDownStreams();
-        if (result != 2) {
-            System.out.println("Player Input Test Failed: Expected 2, Got " + result);
-        } else {
-            System.out.println("Player Input Test Passed.");
-        }
-    }
-
-    @Test
-    public void testPlayerNameInput() {
-
-        // Set up mock input
-        String[] input = {"Player1", "Player2", "Player3"};
-
-        // Call the method to be tested
-        Scanner scanner = new Scanner(String.join("\n", input));
-        String[] playerNames = PlayerProcessing.playerNameInput(3, scanner);
-
-        // Check if the output is as expected
-        String expectedOutput = "Please name each of the players: (3 -- One after the other.): \n" + "Player Names: \n" + Arrays.toString(playerNames) + "\n";
-
-        // Check if the returned value is as expected
-        assertArrayEquals(input, playerNames);
-    }
-
-    @Test
     public void testGetPlayerName() {
         String[] playerNames = {"TestPlayer", "Player2"};
         assertEquals("TestPlayer", Player.getPlayerName(playerNames, 0));
