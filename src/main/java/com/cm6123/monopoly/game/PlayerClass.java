@@ -51,7 +51,7 @@ public class PlayerClass {
      * @param board
      * @param currentPlayer
      */
-    public static void playerTurn(final Scanner scanner, final String[] playerNames, final int searchIndex, final String[][] board, final Player currentPlayer) {
+    public static void playerTurn(final Scanner scanner, final String[] playerNames, final int searchIndex, final String[][] board, final Player currentPlayer, final Dice dice) {
 
         String activePlayer = currentPlayer.getPlayerName(playerNames, searchIndex);
 
@@ -65,8 +65,6 @@ public class PlayerClass {
         System.out.println("Press enter to continue your turn...");
         scanner.nextLine();
 
-        //Executes the rolling of the dice
-        Dice dice = new Dice(6);
         int[] result = dice.rollTwoDice();
 
         //Checks if player rolled a double

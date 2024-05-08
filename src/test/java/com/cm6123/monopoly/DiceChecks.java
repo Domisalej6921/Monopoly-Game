@@ -11,8 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class DiceChecks {
@@ -91,11 +90,26 @@ public class DiceChecks {
 
   @Test
   public void shouldGet6Faces() {
-
     Integer faces = 6;
-
     Dice aDice = new Dice(faces);
     assertEquals(6, aDice.getFaces());
   }
 
+  @Test
+  public void testRollTwoDice() {
+    Dice dice = new Dice(6);
+    int[] rolls = dice.rollTwoDice();
+    assertTrue(rolls[0] >= 1 && rolls[0] <= 6);
+    assertTrue(rolls[1] >= 1 && rolls[1] <= 6);
+  }
+
+  @Test
+  public void testCheckForDouble() {
+    Dice dice = new Dice(6);
+    int[] rolls = {1, 1};
+    assertTrue(dice.checkForDouble(rolls));
+
+    int[] notDoubleRoll = {1, 2};
+    assertFalse(Dice.checkForDouble(notDoubleRoll));
+  }
 }

@@ -1,5 +1,6 @@
 package com.cm6123.monopoly.app;
 
+import com.cm6123.monopoly.dice.Dice;
 import com.cm6123.monopoly.game.Player;
 import com.cm6123.monopoly.game.Board;
 import com.cm6123.monopoly.game.PlayerClass;
@@ -125,7 +126,7 @@ public class PlayerProcessing {
             for (int i = 0; i < playerCount; i++) {
                 int searchIndex = i;
                 Player currentPlayer = players[i];
-                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer);
+                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer, new Dice(6));
             }
 
             currentRound++;

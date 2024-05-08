@@ -21,7 +21,7 @@ public class Dice {
    *
    * @return an integer between 1 and the number of faces inclusive.
    */
-  public static Integer roll() {
+  public Integer roll() {
     Double tempRoll = Math.ceil(Math.random() * faces.doubleValue());
     return tempRoll.intValue();
   }
@@ -30,7 +30,7 @@ public class Dice {
      * Processes the rolling of two dice.
      * @return the value of both rolls.
      */
-  public static int[] rollTwoDice() {
+  public int[] rollTwoDice() {
     int roll1 = roll();
     int roll2 = roll();
 
