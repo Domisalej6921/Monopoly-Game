@@ -44,7 +44,7 @@ public class PlayerClassTests {
         String input = "\n" + "\nyes\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         Scanner scanner = new Scanner(System.in);
-        PlayerClass.checkForPropertyPurchase(player, property, scanner);
+        PlayerClass.checkForPropertyPurchase(player, property, scanner, dice.rollTwoDice());
         assertEquals("You do not have any Properties.", Player.getPlayerAssests(player));
     }
 
