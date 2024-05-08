@@ -68,8 +68,8 @@ public class Properties {
 
     /**
      * Get the property instance.
-     * @param propertyInstance
-     * @return
+     *
+     * @return property
      */
     public Properties getProperty() {
         return this.property;
@@ -80,7 +80,7 @@ public class Properties {
      * @return playerOwner.
      */
     public PropertyType getPropertyType() {
-        return propertyType;
+        return this.propertyType;
     }
 
     /**
@@ -96,9 +96,10 @@ public class Properties {
         String[] propertyNames = {"Main Street", " Broadway  ", " Park Lane ", "Bond Street", "Oxford View", "Regent Road", "Piccadilly "};
 
         //Calculate the number of properties to be created
-        int numOfRoads = numOfSpaces / 5;
-        int numOfStations = numOfSpaces / 10;
-        int numOfTaxOffices = 1;
+        int numOfRoads = (int) (numOfSpaces * 0.4);
+        int numOfStations = (int) (numOfSpaces * 0.3);
+        int numOfTaxOffices = (int) (numOfSpaces * 0.1);
+        int numOfProperties = numOfSpaces - numOfRoads - numOfStations - numOfTaxOffices;
 
         //list of road spaces
         for (int i = 0; i < numOfRoads; i++) {
@@ -115,7 +116,7 @@ public class Properties {
         for (int i = 0; i < numOfStations; i++) {
             String name= "  Station  ";
             Player owner = null;
-            int price = 0;
+            int price = 10;
             int rent = 0;
             PropertyType type = PropertyType.Station;
             Properties property = new Properties(name, type, owner, price, rent);
@@ -123,21 +124,23 @@ public class Properties {
         }
 
         //Creates a tax office
-        String name = "Tax Office ";
-        Player owner = null;
-        int price = 0;
-        int rent = 0;
-        PropertyType type = PropertyType.TaxOffice;
-        Properties property = new Properties(name, type, owner, price, rent);
-        properties.add(property);
+        for (int i = 0; i < numOfTaxOffices; i++) {
+            String name = "Tax Office ";
+            Player owner = null;
+            int price = 0;
+            int rent = 0;
+            PropertyType type = PropertyType.TaxOffice;
+            Properties property = new Properties(name, type, owner, price, rent);
+            properties.add(property);
+        }
 
-        while (properties.size() < numOfSpaces) {
-            name = propertyNames[random.nextInt(propertyNames.length)];
-            owner = null;
-            price = random.nextInt(400) + 100;
-            rent = (int) round(price * 0.1);
-            type = PropertyType.Property;
-            property = new Properties(name, type, owner, price, rent);
+        for (int i = 0; i < numOfProperties; i++) {
+            String name = propertyNames[random.nextInt(propertyNames.length)];
+            Player owner = null;
+            int price = random.nextInt(400) + 100;
+            int rent = (int) round(price * 0.1);
+            PropertyType type = PropertyType.Property;
+            Properties property = new Properties(name, type, owner, price, rent);
             properties.add(property);
         }
         return properties;

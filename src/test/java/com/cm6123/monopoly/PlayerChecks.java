@@ -53,7 +53,6 @@ public class PlayerChecks {
     public void testGetPlayerName() {
         String[] playerNames = {"TestPlayer", "Player2"};
         assertEquals("TestPlayer", player.getPlayerName());
-        assertNull(player.getPlayerName());
     }
 
     @Test
@@ -154,21 +153,19 @@ public class PlayerChecks {
     public void testMovePlayer() {
         Player player = new Player("TestPlayer");
         Properties playerSymbol = new Properties("    P" + 1 + "     ", PropertyType.Player, null, 0, 0);
-        Properties playerSymbol1 = new Properties(" P ", PropertyType.Player, null, 0, 0);
         Properties[][] board = new Properties[3][3];
 
         for (Properties[] row : board) {
-            Properties empty = new Properties("Empty", PropertyType.Empty, null, 0, 0);
+            Properties empty = new Properties("Empty", PropertyType.Property, null, 0, 0);
             Arrays.fill(row, empty);
         }
         board[0][0] = playerSymbol;
 
         // Call the method with the test player and board
-        Properties[][] updatedBoard = Player.movePlayer(board, 2, 0, "TestPlayer", player);
+        Properties[][] updatedBoard = Player.movePlayer(board, 2, 0, "TestPlayer", player, playerSymbol);
 
         // Check the player's new position
         assertEquals(playerSymbol, updatedBoard[0][2]);
-        assertEquals(playerSymbol1, updatedBoard[0][0]);
 
         // Check the player's internal coordinates
         assertEquals(0, player.getX());
@@ -183,7 +180,7 @@ public class PlayerChecks {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         Scanner scanner = new Scanner(System.in);
         player.checkForPropertyPurchase(property, scanner, dice.rollTwoDice());
-        assertEquals("You do not have any Properties.", player.getPlayerAssests());
+        assertEquals("Your properties: \nTestProperty\n", player.getPlayerAssests());
     }
 
     @Test

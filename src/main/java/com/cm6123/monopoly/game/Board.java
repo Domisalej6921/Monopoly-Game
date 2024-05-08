@@ -112,7 +112,7 @@ public class Board {
                     if (i == 0 && j == 0) {
                         System.out.print("|" + "   Home    " + "|");
                     } else {
-                        Properties activeProperty = getPropertyAtCoords(i, j);
+                        Properties activeProperty = getPropertyAtCoords(i, j, board);
                         System.out.print("|" + activeProperty.getPropertyName(activeProperty) + "|");
                     }
                 } else {
@@ -141,7 +141,7 @@ public class Board {
                     } else if(board[i][j].getPropertyType() == PropertyType.Player) {
                         System.out.print("|" + playerSymbol.getPropertyName(playerSymbol) + "|");
                     }else {
-                        Properties activeProperty = getPropertyAtCoords(i, j);
+                        Properties activeProperty = getPropertyAtCoords(i, j, board);
                         System.out.print("|" + activeProperty.getPropertyName(activeProperty) + "|");
                     }
                 } else {
@@ -192,10 +192,10 @@ public class Board {
      * Getter for propertyMap.
      * @param x
      * @param y
-     *
+     * @param board
      * @return propertyMap
      */
-    public static Properties getPropertyAtCoords(final int x, final int y) {
-        return propertyMap.get(new Point(x, y));
+    public static Properties getPropertyAtCoords(final int x, final int y, final Properties[][] board) {
+        return board[x][y];
     }
 }

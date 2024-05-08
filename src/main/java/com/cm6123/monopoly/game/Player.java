@@ -56,6 +56,11 @@ public class Player {
     private int newY;
 
     /**
+     * Initialises player's landed property.
+     */
+    private Properties landedProperty;
+
+    /**
      * constructor for the player class.
      *
      * @param name
@@ -65,11 +70,12 @@ public class Player {
         this.assets = new ArrayList<>();
         this.x = 0;
         this.y = 0;
+        this.landedProperty = null;
     }
 
     /**
      * used to get player's assets.
-     * @param currentPlayer
+     *
      * @return the player's assets.
      */
     public String getPlayerAssests() {
@@ -142,7 +148,7 @@ public class Player {
 
     /**
      * used to get player's balance.
-     * @param currentPlayer
+     *
      * @return the player's balance.
      */
     public int getBalance() {
@@ -180,37 +186,43 @@ public class Player {
     }
 
     /**
+     * used to add landed property to the player.
+     * @param property
+     */
+    public void addLandedProperty(final Properties property) {
+        this.landedProperty = property;
+    }
+
+    /**
+     * used to get the player's landed property.
+     * @return landedProperty
+     */
+    public Properties getLandedProperty() {
+        return this.landedProperty;
+    }
+
+    /**
      * used to move the player around the board String[][].
      * @param board
      * @param totalMove
      * @param searchIndex
      * @param activePlayer
      * @param playerInstance
+     * @param playerSymbol
      * @return old board.
      */
-    public static Properties[][] movePlayer(final Properties[][] board, final int totalMove, final int searchIndex, final String activePlayer, final Player playerInstance) {
-        int [] coords = new int[2];
-        Properties playerSymbol = new Properties("    P" + (searchIndex) + "     ", PropertyType.Player, null, 0, 0);
+    public static Properties[][] movePlayer(final Properties[][] board, final int totalMove, final int searchIndex, final String activePlayer, final Player playerInstance, final Properties playerSymbol) {
 
         Properties[][] originalBoard = getOriginalBoard(board);
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != null && board[i][j].equals(playerSymbol)) { // If player's symbol is found
-                    coords[0] = i;
-                    coords[1] = j;
-                }
-            }
-        }
-
-        int x = coords[0];
-        int y = coords[1];
+        int x = playerInstance.getX();
+        int y = playerInstance.getY();
 
         // Calculate new player position based on totalMove
-        int totalSpaces = 2 * (board.length + board[0].length);
+        int totalSpaces = 2 * (board.length + board[0].length - 4);
 
         //Calculate current position and new position
-        int currentPosition = x + y;
+        int currentPosition = 0;
         if (x == 0) {
             currentPosition = y;
         } else if (y == board[0].length - 1) {
@@ -224,24 +236,32 @@ public class Player {
         int newPosition = (currentPosition + totalMove) % totalSpaces;
 
         int oldPosition = currentPosition;
-        if (newPosition < oldPosition) {
-            playerInstance.addBalance(activePlayer, 200);
+        if (newPosition <= oldPosition) {
+            playerInstance.addBalance(playerInstance.getPlayerName(), 200);
         }
+
+        int oldX = x;
+        int oldY = y;
+
+        // Restore the old position with the original value
+        board[oldX][oldY] = originalBoard[oldX][oldY];
 
         //Convert new position back to 2D coordinates
         if (newPosition < board[0].length) {
             x = 0;
             y = newPosition;
-        } else if (newPosition < board[0].length + board.length) {
+        } else if (newPosition < board[0].length + board.length - 1) {
             x = newPosition - board[0].length;
             y = board[0].length - 1;
-        } else if (newPosition < 2 * board[0].length + board.length) {
+        } else if (newPosition < 2 * board[0].length + board.length - 2) {
             x = board.length - 1;
-            y = 2 * board[0].length + board.length - newPosition - 1;
+            y = board[0].length - 1 - (newPosition - board[0].length - board.length + 2);
         } else {
-            x = totalSpaces - newPosition;
+            x = board.length - 1 - (newPosition - 2 * board[0].length - board.length + 3);
             y = 0;
         }
+
+        playerInstance.landedProperty = Board.getPropertyAtCoords(x, y, board);
 
         Player.printPlayerPosition(x, y, board);
 
@@ -264,8 +284,6 @@ public class Player {
 
         playerInstance.x = x;
         playerInstance.y = y;
-
-        //Player.printPlayerPosition(x, y, board);
 
         return board;
     }
@@ -317,13 +335,14 @@ public class Player {
             return;
         }
 
-        if (property.getPropertyType() == PropertyType.Property) {
+        PropertyType propertyType = property.getPropertyType();
+
+        if (propertyType == PropertyType.Property) {
             System.out.println("You have landed on a property. Would you like to purchase it? (yes/no)");
-            if (scanner.hasNextLine()) {
-                String response = scanner.nextLine();
+            while (scanner.hasNextLine()) {
+                String response = scanner.nextLine().trim().toLowerCase();
 
-
-                if (response.equalsIgnoreCase("yes")) {
+                if (response.equals("yes")) {
                     if (this.getBalance() >= property.getPrice()) {
                         this.setBalance(this.getBalance() - property.getPrice());
                         this.addPropertyToAssets(property);
@@ -331,10 +350,16 @@ public class Player {
                     } else {
                         System.out.println("You do not have enough money to purchase this property.");
                     }
+                    break;
+                } else if (response.equals("no")) {
+                    System.out.println("You chose not to purchase the property.");
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
                 }
             }
-        } else if(property.getPropertyType() == PropertyType.Station) {
-            int unitPrice = property.getPrice(); // Assuming getPrice() returns the unit price for a station
+        } else if (propertyType == PropertyType.Station) {
+            int unitPrice = property.getPrice();
             int ticketPrice = (diceResult[0] + diceResult[1]) * unitPrice;
 
             if (this.getBalance() >= ticketPrice) {
@@ -343,7 +368,7 @@ public class Player {
             } else {
                 System.out.println("You do not have enough money to pay for this travel.");
             }
-        }else {
+        } else {
             System.out.println("You have landed on " + property.getPropertyType() + ". You cannot purchase this.");
         }
     }
@@ -357,7 +382,8 @@ public class Player {
      * @param board
      * @param dice
      */
-    public void playerTurn(final Scanner scanner, final String[] playerNames, final int searchIndex, final Properties[][] board, final Dice dice) {
+    public void playerTurn (final Scanner scanner, final String[] playerNames, final int searchIndex,
+    final Properties[][] board, final Dice dice){
 
         String activePlayer = this.getPlayerName();
 
@@ -367,7 +393,6 @@ public class Player {
 
         Properties playerSymbol = new Properties("    P" + (searchIndex + 1) + "     ", PropertyType.Player, null, 0, 0);
 
-        board[this.getLastX()][this.getLastY()] = playerSymbol;
         Board.printBoard(board, playerSymbol);
 
         System.out.println("Press enter to continue your turn...");
@@ -385,16 +410,12 @@ public class Player {
 
             int totalMove = result[0] + result[1];
 
-            // Update the player's position
-            board[this.getLastX()][this.getLastY()] = playerSymbol;
-
-            Properties[][] updatedBoard = Player.movePlayer(board, totalMove, searchIndex, activePlayer, this);
+            Properties[][] updatedBoard = Player.movePlayer(board, totalMove, searchIndex, activePlayer, this, playerSymbol);
             Board.printBoard(updatedBoard, playerSymbol);
 
             System.out.println("\nYour Balance is: " + this.getBalance());
 
-            Properties landedProperty = Board.getPropertyAtCoords(this.getNewX(), this.getNewY());
-            checkForPropertyPurchase(landedProperty, scanner, result);
+            checkForPropertyPurchase(this.getLandedProperty(), scanner, result);
 
             System.out.println(this.getPlayerAssests());
         }

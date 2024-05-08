@@ -33,7 +33,7 @@ public enum PropertyType {
     Player,
 
     /**
-     * Home type
+     * Home type.
      */
     Home
 }
