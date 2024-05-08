@@ -138,11 +138,11 @@ public class PlayerProcessing {
                 Player winner = players[0];
                 String winnerName = playerNames[0];
                 for (int i = 1; i < playerCount; i++) {
-                    if (players[i].getBalance() > winner.getBalance()) {
+                    if (players[i].getBalance(players[i]) > winner.getBalance(players[i])) {
                         winner = players[i];
                         winnerName = playerNames[i];
-                        System.out.println("The winner is: " + winnerName + " with a balance of " + winner.getBalance() + "!");
-                    } else if (Player.getBalance() == winner.getBalance()) {
+                        System.out.println("The winner is: " + winnerName + " with a balance of " + winner.getBalance(players[i]) + "!");
+                    } else if (Player.getBalance(players[i]) == winner.getBalance(players[i])) {
                         System.out.println("It's a tie!");
                     } else {
                         System.out.println("No winner!");

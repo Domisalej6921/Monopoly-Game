@@ -1,7 +1,7 @@
 package com.cm6123.monopoly.game;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.cm6123.monopoly.game.Board.getOriginalBoard;
 
@@ -15,7 +15,12 @@ public class Player {
     /**
      * Initiates default balance value.
      */
-    private static Map<String, Integer> playerBalances = new HashMap<>();
+    private int balance = 1000;
+
+    /**
+     * Initialises player's assets.
+     */
+    private List<Properties> assets;
 
     /**
      * Initialises player x location on board.
@@ -38,15 +43,43 @@ public class Player {
     private int lastY;
 
     /**
+     * Initialises player's new x location on board.
+     */
+    private int newX;
+
+    /**
+     * Initialises player's new y location on board.
+     */
+    private int newY;
+
+    /**
      * constructor for the player class.
      *
      * @param name
      */
     public Player(final String name) {
         this.playerName = name;
-        this.playerBalances = playerBalances;
+        this.balance = balance;
+        this.assets = new ArrayList<>();
         this.x = 0;
         this.y = 0;
+    }
+
+    /**
+     * used to get player's assets.
+     * @param currentPlayer
+     * @return the player's assets.
+     */
+    public static String getPlayerAssests(final Player currentPlayer) {
+        if (currentPlayer.assets.isEmpty()) {
+            return "You do not have any Properties.";
+        } else {
+            StringBuilder assetsList = new StringBuilder();
+            for (Properties property : currentPlayer.assets) {
+                assetsList.append(Properties.getPropertyName(property)).append("\n");
+            }
+            return "Your properties: \n" + assetsList;
+        }
     }
 
     /**
@@ -82,6 +115,24 @@ public class Player {
     }
 
     /**
+     * used to get player's new X location.
+     * @param currentPlayer
+     * @return newX
+     */
+    public int getNewX(final Player currentPlayer) {
+        return currentPlayer.newX;
+    }
+
+    /**
+     * used to get player's new Y location.
+     * @param currentPlayer
+     * @return newY
+     */
+    public int getNewY(final Player currentPlayer) {
+        return currentPlayer.newY;
+    }
+
+    /**
      * used to get player's name.
      * @param playerNames
      * @param searchIndex
@@ -97,22 +148,44 @@ public class Player {
 
     /**
      * used to get player's balance.
+     * @param currentPlayer
      * @return the player's balance.
      */
-    public static int getBalance() {
-        return playerBalances.getOrDefault(playerName, 1000);
+    public static int getBalance(final Player currentPlayer) {
+        return currentPlayer.balance;
     }
 
     /**
      * used to add balance to the player.
      * @param amount
      * @param activePlayerName
+     * @param currentPlayer
      */
-    public static void addBalance(final String activePlayerName, final int amount) {
-        int currentBalance = getBalance();
-        playerBalances.put(activePlayerName, currentBalance + amount);
+    public static void addBalance(final String activePlayerName, final int amount, final Player currentPlayer) {
+        int currentBalance = getBalance(currentPlayer);
+        currentPlayer.balance = currentPlayer.balance + amount;
+        currentBalance = currentPlayer.balance;
     }
 
+    /**
+     * Sets the player's balance.
+     *
+     * @param currentBalance the new balance
+     */
+    public void setBalance(final int currentBalance) {
+        this.balance = currentBalance;
+    }
+
+    /**
+     * used to remove balance from the player.
+     *
+     * @param property
+     *
+     */
+    public void addPropertyToAssets(final Properties property) {
+        // Assuming assets is a List of Property
+        this.assets.add(property);
+    }
 
     /**
      * used to move the player around the board String[][].
@@ -161,7 +234,7 @@ public class Player {
 
         int oldPosition = currentPosition;
         if (newPosition < oldPosition) {
-            addBalance(activePlayer, 200);
+            addBalance(activePlayer, 200, playerInstance);
         }
 
         //Convert new position back to 2D coordinates
@@ -209,13 +282,15 @@ public class Player {
      * @param newX
      * @param newY
      * @param board
+     *
+     * @return the player's position.
      */
-    public static void printPlayerPosition(final int newX, final int newY, final String[][] board) {
+    public static String printPlayerPosition(final int newX, final int newY, final String[][] board) {
 
         // Check if the coordinates are within the board's bounds
         if (newX < 0 || newX >= board.length || newY < 0 || newY >= board[0].length) {
             System.out.println("Invalid coordinates. Player's position cannot be printed.");
-            return;
+            return null;
         }
 
         //Get the player's current position
@@ -225,5 +300,6 @@ public class Player {
         String property = board[x][y];
 
         System.out.println("\nYou are currently at: " + property);
+        return property;
     }
 }

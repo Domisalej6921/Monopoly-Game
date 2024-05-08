@@ -45,12 +45,12 @@ public class PlayerChecks {
 
     @Test
     public void testGetBalance() {
-        assertEquals(1000, Player.getBalance());
+        assertEquals(1000, Player.getBalance(player));
     }
 
     @Test
     public void testAddBalance() {
-        Player.addBalance("TestPlayer", 500);
-        assertEquals(1500, Player.getBalance());
+        Player.addBalance("TestPlayer", 500, player);
+        assertEquals(1500, Player.getBalance(player));
     }
 }

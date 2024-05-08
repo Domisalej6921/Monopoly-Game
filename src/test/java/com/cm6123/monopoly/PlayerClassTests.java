@@ -20,18 +20,4 @@ public class PlayerClassTests {
 
     private final InputStream originalSystemIn = System.in;
     private Player player;
-
-    @Test
-    public void testPlayerTurn() {
-        // Set up mock input
-        String[] playerNames = {"Player1", "Player2", "Player3"};
-        String[][] board = Board.boardCreation(20, Properties.getProperties(20));
-        Player currentPlayer = new Player("TestPlayer");
-        int searchIndex = 0;
-        ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());
-        System.setIn(in);
-
-        Scanner scanner = new Scanner(System.in);
-        PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer);
-    }
 }

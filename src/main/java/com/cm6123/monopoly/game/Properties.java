@@ -14,6 +14,11 @@ public class Properties {
     private final String propertyName;
 
     /**
+     * Initialises the property attribute.
+     */
+    private static Properties property = null;
+
+    /**
      * Initialises the propertyType attribute.
      */
     private PropertyType propertyType;
@@ -44,6 +49,7 @@ public class Properties {
     public Properties(final String name, final PropertyType type, final Player owner, final int price, final int rent) {
         this.propertyName = name;
         this.propertyType = type;
+        this.property = this;
         this.playerOwner = owner;
         this.propertyPrice = price;
         this.propertyRent = rent;
@@ -51,10 +57,21 @@ public class Properties {
 
     /**
      * Get the property name.
+     *
+     * @param propertyInstance
+     *
      * @return propertyName.
      */
-    public String getPropertyName() {
-        return this.propertyName;
+    public static String getPropertyName(final Properties propertyInstance) {
+        return propertyInstance.propertyName;
+    }
+
+    /**
+     * Get the owner.
+     * @return playerOwner.
+     */
+    public PropertyType getPropertyType() {
+        return propertyType;
     }
 
     /**
@@ -110,10 +127,18 @@ public class Properties {
             owner = null;
             price = random.nextInt(400) + 100;
             rent = (int) round(price * 0.1);
-            type = PropertyType.values()[random.nextInt(PropertyType.values().length)];
+            type = PropertyType.Property;
             property = new Properties(name, type, owner, price, rent);
             properties.add(property);
         }
         return properties;
+    }
+
+    /**
+     * Get the price of the property.
+     * @return propertyPrice.
+     */
+    public int getPrice() {
+        return propertyPrice;
     }
 }

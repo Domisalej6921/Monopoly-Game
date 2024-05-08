@@ -12,6 +12,37 @@ public class PlayerClass {
     private Player playerActive;
 
     /**
+     * Initialises the checks if a property is purchased.
+     *
+     * @param currentPlayer
+     * @param property
+     * @param scanner
+     */
+    public static void checkForPropertyPurchase(final Player currentPlayer, final Properties property, final Scanner scanner) {
+        if (property == null) {
+            System.out.println("Error: The property you have landed on doesn't exist.");
+            return;
+        }
+
+        if (property.getPropertyType() == PropertyType.Property) {
+            System.out.println("You have landed on a property. Would you like to purchase it? (yes/no)");
+            String response = scanner.nextLine();
+
+            if (response.equalsIgnoreCase("yes")) {
+                if (currentPlayer.getBalance(currentPlayer) >= property.getPrice()) {
+                    currentPlayer.setBalance(currentPlayer.getBalance(currentPlayer) - property.getPrice());
+                    currentPlayer.addPropertyToAssets(property);
+                    System.out.println("You have successfully purchased the property.");
+                } else {
+                    System.out.println("You do not have enough money to purchase this property.");
+                }
+            }
+        } else {
+            System.out.println("You have landed on " + property.getPropertyType() + ". You cannot purchase this.");
+        }
+    }
+
+    /**
      * Passes the player into the method which conducts the players turn.
      *
      * @param scanner
@@ -23,6 +54,8 @@ public class PlayerClass {
     public static void playerTurn(final Scanner scanner, final String[] playerNames, final int searchIndex, final String[][] board, final Player currentPlayer) {
 
         String activePlayer = currentPlayer.getPlayerName(playerNames, searchIndex);
+
+        int numOfSpaces = board[0].length + board[1].length;
 
         System.out.println("\n\nWelcome " + activePlayer + " its your turn! \n");
 
@@ -52,7 +85,11 @@ public class PlayerClass {
 
         Board.printBoard(updatedBoard);
 
+        System.out.println("\nYour Balance is: " + currentPlayer.getBalance(currentPlayer));
 
-        System.out.println("\nYour Balance is: " + currentPlayer.getBalance());
+        Properties landedProperty = Board.getPropertyAtCoords(currentPlayer.getNewX(currentPlayer), currentPlayer.getNewY(currentPlayer));
+        checkForPropertyPurchase(currentPlayer, landedProperty, scanner);
+
+        System.out.println(Player.getPlayerAssests(currentPlayer));
     }
 }

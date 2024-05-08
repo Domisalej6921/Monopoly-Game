@@ -1,6 +1,9 @@
 package com.cm6123.monopoly.game;
 
+import java.awt.Point;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -14,6 +17,11 @@ public class Board {
      * Creates the Array that the board will be stored in.
      */
     private String[][] originalBoard;
+
+    /**
+     * Creates the Array that the board will be stored in.
+     */
+    private static Map<Point, Properties> propertyMap = new HashMap<>();
 
     /**
      * Obtains the user's input for the board size and checks if it is valid.
@@ -43,7 +51,7 @@ public class Board {
      * Creates the board String[][] and prints it in the terminal.
      *
      * @param numOfSpaces number of spaces the user wants the monopoly board to have.
-     * @param properties list of properties to be placed on the board.
+     * @param properties  list of properties to be placed on the board.
      * @return the board to be used elsewhere in the program
      */
     public static String[][] boardCreation(final int numOfSpaces, final List<Properties> properties) {
@@ -71,7 +79,7 @@ public class Board {
                         System.out.println("Error: Properties list is empty.");
                         return null;
                     } else {
-                        board[i][j] = properties.get(propertyIndex).getPropertyName();
+                        board[i][j] = Properties.getPropertyName(properties.get(propertyIndex));
                         propertyIndex = (propertyIndex + 1) % properties.size();
                     }
                 }
@@ -88,11 +96,24 @@ public class Board {
             }
         }
 
+        // Fill the propertyMap
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
+                    if (!properties.isEmpty()) {
+                        propertyMap.put(new Point(i, j), properties.get(propertyIndex));
+                        propertyIndex = (propertyIndex + 1) % properties.size();
+                    }
+                }
+            }
+        }
+
         return board;
     }
 
     /**
      * Method to print the board when called.
+     *
      * @param board
      */
     public static void printBoard(final String[][] board) {
@@ -109,7 +130,6 @@ public class Board {
      * Getter for originalBoard.
      *
      * @param board
-     *
      * @return originalBoard
      */
     public static String[][] getOriginalBoard(final String[][] board) {
@@ -119,6 +139,7 @@ public class Board {
 
     /**
      * method to spawn a player at the Home space on the board.
+     *
      * @param board
      * @param x
      * @param y
@@ -141,5 +162,16 @@ public class Board {
         board[x][y] = playerSymbol;
 
         return coords;
+    }
+
+    /**
+     * Getter for propertyMap.
+     * @param x
+     * @param y
+     *
+     * @return propertyMap
+     */
+    public static Properties getPropertyAtCoords(final int x, final int y) {
+        return propertyMap.get(new Point(x, y));
     }
 }
