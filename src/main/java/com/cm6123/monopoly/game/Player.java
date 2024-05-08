@@ -186,6 +186,27 @@ public class Player {
     }
 
     /**
+     * used to sell property from the player.
+     *
+     * @return propertySold to check if property was sold.
+     */
+    public boolean sellProperty() {
+        boolean propertySold;
+        if (!this.assets.isEmpty()) {
+            Properties propertyToSell = this.assets.remove(0); // remove the first property
+            int propertyPrice = propertyToSell.getPrice();
+            this.balance += propertyPrice; // add the property price to the balance
+            System.out.println("You had to sell " + propertyToSell.getPropertyName(propertyToSell) + " for " + propertyPrice);
+            propertySold = true;
+            return propertySold;
+        } else {
+            System.out.println("You don't have any properties to sell.");
+            propertySold = false;
+            return propertySold;
+        }
+    }
+
+    /**
      * used to add landed property to the player.
      * @param property
      */
@@ -328,11 +349,15 @@ public class Player {
      * @param property
      * @param scanner
      * @param diceResult
+     *
+     * @return gameOver and checks if the game is over.
      */
-    public void checkForPropertyPurchase(final Properties property, final Scanner scanner, final int[] diceResult) {
+    public boolean checkForPropertyPurchase(final Properties property, final Scanner scanner, final int[] diceResult) {
+        boolean gameOver = false;
+
         if (property == null) {
             System.out.println("Error: The property you have landed on doesn't exist.");
-            return;
+            return gameOver;
         }
 
         PropertyType propertyType = property.getPropertyType();
@@ -350,12 +375,15 @@ public class Player {
                     } else {
                         System.out.println("You do not have enough money to purchase this property.");
                     }
+                    gameOver = false;
                     break;
                 } else if (response.equals("no")) {
                     System.out.println("You chose not to purchase the property.");
+                    gameOver = false;
                     break;
                 } else {
                     System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                    gameOver = false;
                 }
             }
         } else if (propertyType == PropertyType.Station) {
@@ -365,12 +393,29 @@ public class Player {
             if (this.getBalance() >= ticketPrice) {
                 this.setBalance(this.getBalance() - ticketPrice);
                 System.out.println("You have successfully paid for your travel. Your balance is now: " + this.getBalance());
+                gameOver = false;
             } else {
                 System.out.println("You do not have enough money to pay for this travel.");
+                while (this.getBalance() < ticketPrice) {
+                    boolean propertySold = this.sellProperty();
+                    if (!propertySold) {
+                        System.out.println("You do not have enough properties to sell and cannot afford to pay the ticket price. Game Over!");
+                        gameOver = true;
+                        break;
+                    }
+                    if (!gameOver) {
+                        this.setBalance(this.getBalance() - ticketPrice);
+                        System.out.println("You have successfully paid for your travel. Your balance is now: " + this.getBalance());
+                        gameOver = false;
+                        break;
+                    }
+                }
             }
         } else {
             System.out.println("You have landed on " + property.getPropertyType() + ". You cannot purchase this.");
+            gameOver = false;
         }
+        return gameOver;
     }
 
     /**
@@ -381,9 +426,11 @@ public class Player {
      * @param searchIndex
      * @param board
      * @param dice
+     *
+     * @return the player's turn.
      */
-    public void playerTurn (final Scanner scanner, final String[] playerNames, final int searchIndex,
-    final Properties[][] board, final Dice dice){
+    public boolean playerTurn (final Scanner scanner, final String[] playerNames, final int searchIndex,
+        final Properties[][] board, final Dice dice) {
 
         String activePlayer = this.getPlayerName();
 
@@ -415,9 +462,15 @@ public class Player {
 
             System.out.println("\nYour Balance is: " + this.getBalance());
 
-            checkForPropertyPurchase(this.getLandedProperty(), scanner, result);
+            boolean gameStatus = checkForPropertyPurchase(this.getLandedProperty(), scanner, result);
 
-            System.out.println(this.getPlayerAssests());
+            if (gameStatus) {
+                System.out.println("Game Over! You have lost!");
+                return false;
+            } else {
+                System.out.println(this.getPlayerAssests());
+            }
         }
+        return true;
     }
 }

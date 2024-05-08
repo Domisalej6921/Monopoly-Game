@@ -111,13 +111,17 @@ public class PlayerProcessing {
             for (int i = 0; i < playerCount; i++) {
                 int searchIndex = i;
                 Player currentPlayer = players[i];
-                currentPlayer.playerTurn(scanner, playerNames, searchIndex, board, new Dice(6));
+                boolean playerStatus = currentPlayer.playerTurn(scanner, playerNames, searchIndex, board, new Dice(6));
+
+                if (!playerStatus) {
+                    gameFinished = true;
+                    break;
+                }
             }
 
             currentRound++;
 
-            if (currentRound == roundCount) {
-                gameFinished = true;
+            if (gameFinished || currentRound == roundCount) {
                 System.out.println("Game Over! Rounds has been completed!");
 
                 //Find player with the highest balance and make them winner
