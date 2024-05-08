@@ -1,5 +1,6 @@
 package com.cm6123.monopoly.app;
 
+import com.cm6123.monopoly.game.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public final class Application {
 
         Scanner scanner = new Scanner(System.in);
         BoardProcessing boardProcessing = new BoardProcessing();
-        String[][] board = boardProcessing.boardExecution(scanner);
+        Properties[][] board = boardProcessing.boardExecution(scanner);
 
 
         PlayerProcessing playerProcessing = new PlayerProcessing();

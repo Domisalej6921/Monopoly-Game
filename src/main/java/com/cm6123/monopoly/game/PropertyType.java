@@ -20,5 +20,20 @@ public enum PropertyType {
     /**
      *  Tax Office type.
      */
-    TaxOffice
+    TaxOffice,
+
+    /**
+     * Empty type.
+     */
+    Empty,
+
+    /**
+     * Player type.
+     */
+    Player,
+
+    /**
+     * Home type
+     */
+    Home
 }

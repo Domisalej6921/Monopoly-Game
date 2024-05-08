@@ -13,7 +13,7 @@ public class BoardProcessing {
     /**
      * Initialises the board variable.
      */
-    private String[][] board;
+    private Properties[][] board;
 
     /**
      * This default constructor handles with the initial proccessing of the board when the user specifies the sixe of the board they want.
@@ -21,12 +21,11 @@ public class BoardProcessing {
      * @param scanner allows user to input data
      * @return the board when finsihed processing.
      */
-    public String[][] boardProcessing(final Scanner scanner) {
+    public Properties[][] boardProcessing(final Scanner scanner) {
 
         int numOfSpaces = Board.boardInput(scanner);
 
-        String[][] localBoard = Board.boardCreation(numOfSpaces, Properties.getProperties(numOfSpaces));
-        Board.printBoard(localBoard);
+        Properties[][] localBoard = Board.boardCreation(numOfSpaces, Properties.getProperties(numOfSpaces));
 
         return localBoard;
     }
@@ -37,9 +36,9 @@ public class BoardProcessing {
      * @param scanner allows user to input data
      * @return board after execution.
      */
-    public static final String[][] boardExecution(final Scanner scanner) {
+    public static final Properties[][] boardExecution(final Scanner scanner) {
         BoardProcessing exe = new BoardProcessing();
-        String[][] board = exe.boardProcessing(scanner);
+        Properties[][] board = exe.boardProcessing(scanner);
         return board;
     }
 }

@@ -70,7 +70,7 @@ public class BoardChecks {
         List<Properties> properties = Properties.getProperties(numOfSpaces);
 
         // Call the method to test
-        String[][] board = Board.boardCreation(numOfSpaces, properties);
+        Properties[][] board = Board.boardCreation(numOfSpaces, properties);
 
         // Check if the board is created correctly
         assertNotNull(board, "Board should not be null");
@@ -83,7 +83,7 @@ public class BoardChecks {
                 if (i == 0 || i == board.length - 1 || j == 0 || j == board[i].length - 1) {
                     assertNotNull(board[i][j], "Property should not be null");
                 } else {
-                    assertEquals("           ", board[i][j], "Inner cells should be empty");
+                    assertEquals(null, board[i][j], "Inner cells should be empty");
                 }
             }
         }

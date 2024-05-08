@@ -3,7 +3,7 @@ package com.cm6123.monopoly.app;
 import com.cm6123.monopoly.dice.Dice;
 import com.cm6123.monopoly.game.Player;
 import com.cm6123.monopoly.game.Board;
-import com.cm6123.monopoly.game.PlayerClass;
+import com.cm6123.monopoly.game.Properties;
 
 import java.util.Scanner;
 
@@ -83,28 +83,13 @@ public class PlayerProcessing {
     }
 
     /**
-     * Handles the processing of player data.
-     *
-     * @param playerCount
-     * @param player
-     * @param scanner allows user input.
-     */
-    private void playerProcessing(final int playerCount, final Player[] player, final Scanner scanner) {
-
-        for(int i = 0; i < playerCount; i++) {
-            PlayerClass playerClass = new PlayerClass();
-        }
-    }
-
-    /**
      * Executes the processing of user data.
      *
      * @param scanner allows user to input data.
      * @param board
      */
-    public static final void playerExecution(final Scanner scanner, final String[][] board) {
-        PlayerProcessing exe = new PlayerProcessing();
-        int playerCount = exe.playerCounterInput(scanner);
+    public static final void playerExecution(final Scanner scanner, final Properties[][] board) {
+        int playerCount = playerCounterInput(scanner);
         String[] playerNames = playerNameInput(playerCount, scanner);
         boolean gameFinished = false;
         int roundCount = roundInput(scanner);
@@ -126,7 +111,7 @@ public class PlayerProcessing {
             for (int i = 0; i < playerCount; i++) {
                 int searchIndex = i;
                 Player currentPlayer = players[i];
-                PlayerClass.playerTurn(scanner, playerNames, searchIndex, board, currentPlayer, new Dice(6));
+                currentPlayer.playerTurn(scanner, playerNames, searchIndex, board, new Dice(6));
             }
 
             currentRound++;
@@ -139,18 +124,18 @@ public class PlayerProcessing {
                 Player winner = players[0];
                 String winnerName = playerNames[0];
                 for (int i = 1; i < playerCount; i++) {
-                    if (players[i].getBalance(players[i]) > winner.getBalance(players[i])) {
+                    if (players[i].getBalance() > winner.getBalance()) {
                         winner = players[i];
                         winnerName = playerNames[i];
-                        System.out.println("The winner is: " + winnerName + " with a balance of " + winner.getBalance(players[i]) + "!");
-                    } else if (Player.getBalance(players[i]) == winner.getBalance(players[i])) {
+                        System.out.println("The winner is: " + winnerName + " with a balance of " + winner.getBalance() + "!");
+                    } else if (players[i].getBalance() == winner.getBalance()) {
                         System.out.println("It's a tie!");
                     } else {
                         System.out.println("No winner!");
                     }
                 }
             } else {
-                exe.playerProcessing(playerCount, players, scanner);
+                System.out.println("Round " + currentRound + " has been completed!");
             }
         }
     }

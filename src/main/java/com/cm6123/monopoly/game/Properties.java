@@ -16,7 +16,7 @@ public class Properties {
     /**
      * Initialises the property attribute.
      */
-    private static Properties property = null;
+    private Properties property = null;
 
     /**
      * Initialises the propertyType attribute.
@@ -64,6 +64,15 @@ public class Properties {
      */
     public static String getPropertyName(final Properties propertyInstance) {
         return propertyInstance.propertyName;
+    }
+
+    /**
+     * Get the property instance.
+     * @param propertyInstance
+     * @return
+     */
+    public Properties getProperty() {
+        return this.property;
     }
 
     /**
