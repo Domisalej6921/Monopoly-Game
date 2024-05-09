@@ -468,7 +468,23 @@ public class Player {
                     }
                 }
             }
-        } else {
+        } else if(propertyType == PropertyType.TaxOffice) {
+            int taxPercentage;
+            if (diceResult[0] == diceResult[1]) {
+                taxPercentage = diceResult[0];
+            } else {
+                taxPercentage = diceResult[0] + diceResult[1];
+            }
+            int taxAmount = (this.getBalance() * taxPercentage) / 100;
+            if (this.getBalance() >= taxAmount) {
+                this.setBalance(this.getBalance() - taxAmount);
+                System.out.println("You have paid a tax of " + taxAmount + ". Your balance is now: " + this.getBalance());
+            } else {
+                System.out.println("You do not have enough money to pay the tax.");
+                // Handle the case when the player can't pay the tax
+            }
+            gameOver = false;
+        }else {
             System.out.println("You have landed on " + property.getPropertyType() + ". You cannot purchase this.");
             gameOver = false;
         }
