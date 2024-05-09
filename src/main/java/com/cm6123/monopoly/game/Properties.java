@@ -26,7 +26,7 @@ public class Properties {
     /**
      * Initialises the owner attribute.
      */
-    private final Player playerOwner;
+    protected Player playerOwner;
 
     /**
      * Initialises the price attribute.
@@ -152,5 +152,21 @@ public class Properties {
      */
     public int getPrice() {
         return propertyPrice;
+    }
+
+    /**
+     * Get the rent of the property.
+     * @return propertyRent.
+     */
+    public int getRent() {
+        return propertyRent;
+    }
+
+    /**
+     * Changes the owner of a property.
+     * @param newOwner
+     */
+    public void changeOwner(final Player newOwner) {
+        this.playerOwner = newOwner;
     }
 }

@@ -183,6 +183,7 @@ public class Player {
     public void addPropertyToAssets(final Properties property) {
         // Assuming assets is a List of Property
         this.assets.add(property);
+        property.changeOwner(this);
     }
 
     /**
@@ -220,6 +221,54 @@ public class Player {
      */
     public Properties getLandedProperty() {
         return this.landedProperty;
+    }
+
+    /**
+     * Checks if the player has landed on a property owned by another player.
+     *
+     * @param property The property the player has landed on.
+     * @return true if the property is owned by another player, false otherwise.
+     */
+    public boolean landedOnOwnedProperty(final Properties property) {
+        return property.getProperty().playerOwner != null && property.getProperty().playerOwner != this;
+    }
+
+    /**
+     * Checks if the player already owns the property.
+     *
+     * @param property The property the player wants to buy.
+     * @return true if the player already owns the property, false otherwise.
+     */
+    public boolean doesPlayerOwnProperty(final Properties property) {
+        boolean playerOwnsProperty = false;
+        if(this.assets.contains(property)) {
+            System.out.println("You already own this property.");
+            playerOwnsProperty = true;
+        } else {
+            playerOwnsProperty = false;
+        }
+        return playerOwnsProperty;
+    }
+
+    /**
+     * Pays rent if the player has landed on a property owned by another player.
+     *
+     * @param property The property the player has landed on.
+     * @return The player who received the rent.
+     */
+    public Player payRent(final Properties property) {
+        if (landedOnOwnedProperty(property)) {
+            int rent = property.getRent();
+            if (this.balance >= rent) {
+                this.balance -= rent;
+                property.getProperty().playerOwner.balance += rent;
+                System.out.println(this.playerName + " paid rent of " + rent + " to " + property.getProperty().playerOwner.playerName);
+            } else {
+                System.out.println(this.playerName + " does not have enough balance to pay the rent.");
+                // Handle the case when the player can't pay the rent
+            }
+        }
+        return property.getProperty().playerOwner;
     }
 
     /**
@@ -298,7 +347,7 @@ public class Player {
         }
 
         //Update Player Position
-        board[x][y] = playerSymbol;
+        //board[x][y] = playerSymbol;
 
         playerInstance.lastX = playerInstance.x;
         playerInstance.lastY = playerInstance.y;
@@ -363,28 +412,36 @@ public class Player {
         PropertyType propertyType = property.getPropertyType();
 
         if (propertyType == PropertyType.Property) {
-            System.out.println("You have landed on a property. Would you like to purchase it? (yes/no)");
-            while (scanner.hasNextLine()) {
-                String response = scanner.nextLine().trim().toLowerCase();
+            if (!landedOnOwnedProperty(property)) {
+                boolean playerOwned = doesPlayerOwnProperty(property);
+                if(playerOwned) {
+                    System.out.println("You have landed on a property. Would you like to purchase it? (yes/no)");
+                    while (scanner.hasNextLine()) {
+                        String response = scanner.nextLine().trim().toLowerCase();
 
-                if (response.equals("yes")) {
-                    if (this.getBalance() >= property.getPrice()) {
-                        this.setBalance(this.getBalance() - property.getPrice());
-                        this.addPropertyToAssets(property);
-                        System.out.println("You have successfully purchased the property.");
-                    } else {
-                        System.out.println("You do not have enough money to purchase this property.");
+                        if (response.equals("yes")) {
+                            if (this.getBalance() >= property.getPrice()) {
+                                this.setBalance(this.getBalance() - property.getPrice());
+                                this.addPropertyToAssets(property);
+                                System.out.println("You have successfully purchased the property.");
+                            } else {
+                                System.out.println("You do not have enough money to purchase this property.");
+                            }
+                            gameOver = false;
+                            break;
+                        } else if (response.equals("no")) {
+                            System.out.println("You chose not to purchase the property.");
+                            gameOver = false;
+                            break;
+                        } else {
+                            System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                            gameOver = false;
+                        }
                     }
-                    gameOver = false;
-                    break;
-                } else if (response.equals("no")) {
-                    System.out.println("You chose not to purchase the property.");
-                    gameOver = false;
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-                    gameOver = false;
                 }
+            } else {
+                Player paidPlayer = payRent(property);
+                System.out.println("You have landed on " + property.getPropertyName(property) + ". You have paid rent to " + paidPlayer.getPlayerName() + ". Your balance is now: " + this.getBalance());
             }
         } else if (propertyType == PropertyType.Station) {
             int unitPrice = property.getPrice();
